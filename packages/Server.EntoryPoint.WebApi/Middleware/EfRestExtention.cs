@@ -1,10 +1,8 @@
 namespace Server.EntoryPoint.WebApi.Middleware;
 
 using System.Text;
-using EfRest.Swagger;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Writers;
 using Server.Repository.AppDb;
 
 public static class EfRestExtention
@@ -13,7 +11,7 @@ public static class EfRestExtention
         app.Map(
             "/api/{**path}",
             [TypeFilter(typeof(StatusCodeExceptionFilter))]
-            async (
+    async (
                 AppDbContext db,
                 ILogger<EfRest.EfRestServer> logger,
                 IOptions<JsonOptions> options,
