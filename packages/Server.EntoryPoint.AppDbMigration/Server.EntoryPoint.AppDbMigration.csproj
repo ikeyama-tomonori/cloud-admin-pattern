@@ -22,6 +22,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.40.0.48530" PrivateAssets="all" Condition="$(MSBuildProjectExtension) == '.csproj'" />
+    <PackageReference Include="CSharpier.MsBuild" Version="0.18.0" PrivateAssets="all" Condition="$(MSBuildProjectExtension) == '.csproj'" />
   </ItemGroup>
 
   <ItemGroup>
