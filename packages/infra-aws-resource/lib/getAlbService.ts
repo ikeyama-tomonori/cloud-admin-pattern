@@ -37,6 +37,8 @@ export default ({ name, assetPath }: Config) =>
                             image: ContainerImage.fromAsset(assetPath),
                             environment: {
                                 Logging__Console__DisableColors: 'true',
+                                'Logging__LogLevel__Microsoft.AspNetCore.HttpLogging.HttpLoggingMiddleware':
+                                    'Information',
                             },
                             secrets: {
                                 DbSecret: Secret.fromSecretsManager(secret),

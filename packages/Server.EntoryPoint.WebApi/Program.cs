@@ -10,7 +10,7 @@ builder.Services.AddAppDbContext(builder.Configuration);
 
 var app = builder.Build();
 
-app.UseAuthorization();
+app.UseHttpLogging();
 app.UseSwaggerUI();
 app.UseEfRestSwagger();
 app.UseDefaultFiles();
