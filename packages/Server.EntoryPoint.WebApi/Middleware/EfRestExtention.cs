@@ -11,7 +11,7 @@ public static class EfRestExtention
         app.Map(
             "/api/{**path}",
             [TypeFilter(typeof(StatusCodeExceptionFilter))]
-    async (
+            async (
                 AppDbContext db,
                 ILogger<EfRest.EfRestServer> logger,
                 IOptions<JsonOptions> options,
@@ -51,7 +51,7 @@ public static class EfRestExtention
                             ),
                         FunctionTerminated = p =>
                             logger.LogWarning(
-                                "Terminated: {Class}[{Description}] param={p.Param}, exception={Exception} in {TotalMilliseconds}ms",
+                                "Terminated: {Class}[{Description}] param={Param}, exception={Exception} in {TotalMilliseconds}ms",
                                 p.RepositoryType.Name,
                                 p.Description,
                                 p.Param,
