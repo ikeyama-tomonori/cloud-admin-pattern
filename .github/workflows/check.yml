@@ -29,13 +29,34 @@ jobs:
                   dotnet format analyzers --verify-no-changes
             - name: Build for check
               run: dotnet build -c Release -warnaserror
-            - name: Test
-              run: dotnet test -c Release --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-            - name: Build and analyze
+            - name: Build and analyze for C#
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
               run: |
-                  dotnet sonarscanner begin /k:"ikeyama-tomonori_cloud-admin-pattern" /o:"ikeyama-tomonori" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"  /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml /d:sonar.sources="packages"  
-                  dotnet build -c Release
+                  dotnet sonarscanner begin /k:"ikeyama-tomonori_cloud-admin-pattern_cs" /o:"ikeyama-tomonori" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"  /d:sonar.host.url="https://sonarcloud.io"
+                  dotnet build
+                  dotnet test
                   dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+            - name: Set up Node
+              uses: actions/setup-node@v3
+            - name: Install packages
+              run: yarn install
+            - name: Lint
+              run: yarn lint
+            - name: Test
+              run: yarn test
+            - name: SonarCloud Scan
+              uses: SonarSource/sonarcloud-github-action@master
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              with:
+                  args: >
+                      -Dsonar.projectKey=ikeyama-tomonori_cloud-admin-pattern_ts
+                      -Dsonar.organization=ikeyama-tomonori
+                      -Dsonar.host.url=https://sonarcloud.io
+                      -Dsonar.sources="./packages"
+                      -Dsonar.test.inclusions="**/*.test.tsx,**/*.test.ts"
+                      -Dsonar.typescript.lcov.reportPaths="coverage/lcov.info"
+                      -Dsonar.testExecutionReportPaths="report/sonar-report.xml"
