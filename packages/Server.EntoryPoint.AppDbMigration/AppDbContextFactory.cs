@@ -21,8 +21,8 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
         var dbSecret = dbSecretJson is string json
             ? JsonSerializer.Deserialize<DbSecret>(json, jsonSerializerOptions)
             : null;
-        var connectionString = dbSecret is not null
-            ? $"Server='{dbSecret.Host}';User='{dbSecret.Username}';Password='{dbSecret.Password}';Database=db"
+        var connectionString = dbSecret is (string host, string username, string password)
+            ? $"Server='{host}';User='{username}';Password='{password}';Database=db"
             : config.GetConnectionString("AppDb");
         var serverVersion = ServerVersion.AutoDetect(connectionString);
         var builder = new DbContextOptionsBuilder<AppDbContext>()
