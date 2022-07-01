@@ -1,0 +1,11 @@
+{
+    "*.{tsx,ts}": [
+        "eslint --fix",
+        "prettier --write"
+    ],
+    "*.cs": [
+        "dotnet format style --include",
+        "dotnet format analyzers --include",
+        "dotnet csharpier"
+    ]
+}

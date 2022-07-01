@@ -1,0 +1,8 @@
+{
+    "name": "@front/ra-data-provider",
+    "version": "0.0.0",
+    "private": true,
+    "dependencies": {
+        "ra-data-simple-rest": "^4.2.0"
+    }
+}

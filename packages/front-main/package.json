@@ -1,0 +1,17 @@
+{
+    "name": "@front/main",
+    "private": true,
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@front/ra-data-provider": "0.0.0",
+        "@front/ra-detail": "0.0.0",
+        "@front/ra-admin": "0.0.0",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0"
+    }
+}

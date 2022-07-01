@@ -1,0 +1,41 @@
+name: Build
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        types: [opened, synchronize, reopened]
+jobs:
+    check:
+        name: Check
+        runs-on: ubuntu-latest
+        steps:
+            - name: Set up JDK 11
+              uses: actions/setup-java@v1
+              with:
+                  java-version: 1.11
+            - name: Setup .NET 6
+              uses: actions/setup-dotnet@v1
+              with:
+                  dotnet-version: 6.0.x
+            - uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+            - name: Install SonarCloud scanner
+              run: dotnet tool update --global dotnet-sonarscanner
+            - name: Format check
+              run: |
+                  dotnet format style --verify-no-changes
+                  dotnet format analyzers --verify-no-changes
+            - name: Build for check
+              run: dotnet build -c Release -warnaserror
+            - name: Test
+              run: dotnet test -c Release --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+            - name: Build and analyze
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              run: |
+                  dotnet sonarscanner begin /k:"ikeyama-tomonori_cloud-admin-pattern" /o:"ikeyama-tomonori" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"  /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml /d:sonar.sources="packages"  
+                  dotnet build -c Release
+                  dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"

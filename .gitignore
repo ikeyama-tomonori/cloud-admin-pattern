@@ -1,0 +1,5 @@
+.scannerwork/
+.sonarqube/
+coverage/
+node_modules/
+report/

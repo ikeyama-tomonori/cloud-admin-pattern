@@ -1,0 +1,10 @@
+{
+    "name": "@infra-aws/resource",
+    "version": "0.0.0",
+    "private": true,
+    "dependencies": {
+        "aws-cdk-lib": "2.29.1",
+        "cdk-fargate-run-task": "^2.0.63",
+        "constructs": "^10.0.0"
+    }
+}

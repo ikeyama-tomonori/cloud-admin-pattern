@@ -1,0 +1,12 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "include": ["src"],
+    "compilerOptions": {
+        "paths": {
+            "@front/ra-admin": ["../front-ra-admin/src"],
+            "@front/ra-data-provider": ["../front-ra-data-provider/src"],
+            "@front/ra-detail": ["../front-ra-detail/src"],
+            "@front/model": ["../front-model/src"]
+        }
+    }
+}
