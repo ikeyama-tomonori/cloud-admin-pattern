@@ -31,7 +31,7 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
                 serverVersion,
                 x => x.MigrationsAssembly("Server.EntoryPoint.AppDbMigration")
             )
-            .UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()))
+            .LogTo(action: Console.WriteLine, minimumLevel: LogLevel.Information)
             .EnableSensitiveDataLogging()
             .EnableDetailedErrors();
         var db = new AppDbContext(builder.Options);
