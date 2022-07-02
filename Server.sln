@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packages", "packages", "{C3C38713-3C5D-4CA3-8E90-7D1EBE610A96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.EntoryPoint.AppDbMigration", "packages\Server.EntoryPoint.AppDbMigration\Server.EntoryPoint.AppDbMigration.csproj", "{CAEA456F-41F0-47FB-A7C7-9A305CEF0D99}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Main.AppDbMigration", "packages\Server.Main.AppDbMigration\Server.Main.AppDbMigration.csproj", "{CAEA456F-41F0-47FB-A7C7-9A305CEF0D99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.EntoryPoint.WebApi", "packages\Server.EntoryPoint.WebApi\Server.EntoryPoint.WebApi.csproj", "{61B36DD2-0237-4A03-A0DB-16824CD78381}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Main.WebApi", "packages\Server.Main.WebApi\Server.Main.WebApi.csproj", "{61B36DD2-0237-4A03-A0DB-16824CD78381}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Model", "packages\Server.Model\Server.Model.csproj", "{F0D05372-DE60-4448-B130-00D5026EAD35}"
 EndProject

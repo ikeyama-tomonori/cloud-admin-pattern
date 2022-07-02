@@ -1,4 +1,4 @@
-namespace Server.EntoryPoint.AppDbMigration;
+namespace Server.Main.AppDbMigration;
 
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;

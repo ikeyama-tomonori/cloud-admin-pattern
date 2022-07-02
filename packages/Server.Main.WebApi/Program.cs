@@ -1,5 +1,5 @@
-﻿using Server.EntoryPoint.WebApi.Middleware;
-using Server.EntoryPoint.WebApi.Service;
+﻿using Server.Main.WebApi.Middleware;
+using Server.Main.WebApi.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 

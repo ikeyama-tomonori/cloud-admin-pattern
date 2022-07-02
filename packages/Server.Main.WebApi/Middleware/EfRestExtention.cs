@@ -1,4 +1,4 @@
-namespace Server.EntoryPoint.WebApi.Middleware;
+namespace Server.Main.WebApi.Middleware;
 
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +11,7 @@ public static class EfRestExtention
         app.Map(
             "/api/{**path}",
             [TypeFilter(typeof(StatusCodeExceptionFilter))]
-            async (
+    async (
                 AppDbContext db,
                 ILogger<EfRest.EfRestServer> logger,
                 IOptions<JsonOptions> options,

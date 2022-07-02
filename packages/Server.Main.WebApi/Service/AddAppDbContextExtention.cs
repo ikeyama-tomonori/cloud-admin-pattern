@@ -1,4 +1,4 @@
-namespace Server.EntoryPoint.WebApi.Service;
+namespace Server.Main.WebApi.Service;
 
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;

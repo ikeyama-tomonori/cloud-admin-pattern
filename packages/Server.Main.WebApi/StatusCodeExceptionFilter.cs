@@ -1,4 +1,4 @@
-﻿namespace Server.EntoryPoint.WebApi;
+﻿namespace Server.Main.WebApi;
 
 using CloudCqs;
 
