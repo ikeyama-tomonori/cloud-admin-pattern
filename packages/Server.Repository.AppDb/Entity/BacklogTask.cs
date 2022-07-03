@@ -9,7 +9,8 @@ public class BacklogTask : TaskBase
 
     public string Title { get; set; } = null!;
 
-    public Backlog? Feature { get; set; }
+    public int BacklogId { get; set; }
+    public Backlog? Backlog { get; set; }
 
     public class Configuration : IEntityTypeConfiguration<BacklogTask>
     {
@@ -17,13 +18,15 @@ public class BacklogTask : TaskBase
         {
             // 代替キー
             builder
-                .HasIndex(backlogTask => new { backlogTask.Feature, backlogTask.Title })
+                .HasIndex(backlogTask => new { backlogTask.BacklogId, backlogTask.Title })
                 .IsUnique();
 
             // 外部参照キー
             builder
-                .HasOne(backlogTask => backlogTask.Feature)
-                .WithMany(feature => feature.BacklogTasks);
+                .HasOne(backlogTask => backlogTask.Backlog)
+                .WithMany(feature => feature.BacklogTasks)
+                .HasForeignKey(backlogTask => backlogTask.BacklogId)
+                .IsRequired();
         }
     }
 }

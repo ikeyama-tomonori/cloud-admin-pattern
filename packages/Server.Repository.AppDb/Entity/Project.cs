@@ -9,6 +9,8 @@ public class Project : TaskBase
 
     public string Name { get; set; } = null!;
 
+    public int OrganizationId { get; set; }
+
     public Organization? Organization { get; set; }
 
     public List<Epic>? Epics { get; set; }
@@ -18,12 +20,14 @@ public class Project : TaskBase
         public void Configure(EntityTypeBuilder<Project> builder)
         {
             // 代替キー
-            builder.HasIndex(project => new { project.Organization, project.Name }).IsUnique();
+            builder.HasIndex(project => new { project.OrganizationId, project.Name }).IsUnique();
 
             // 外部参照キー
             builder
                 .HasOne(project => project.Organization)
-                .WithMany(organization => organization.Projects);
+                .WithMany(organization => organization.Projects)
+                .HasForeignKey(project => project.OrganizationId)
+                .IsRequired();
         }
     }
 }

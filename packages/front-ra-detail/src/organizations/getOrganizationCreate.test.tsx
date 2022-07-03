@@ -7,6 +7,7 @@ import {
     CoreAdminRoutes,
     CreateParams,
     CreateResult,
+    DataProvider,
     Resource,
     testDataProvider,
 } from 'react-admin';
@@ -57,7 +58,7 @@ describe('<OrganizationCreate />', () => {
                         name: '##name##',
                     },
                 })
-            );
+            ) as DataProvider['create'];
 
         user.click(
             screen.getByRole('button', {

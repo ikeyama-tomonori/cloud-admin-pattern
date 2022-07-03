@@ -1,7 +1,8 @@
 .scannerwork/
 .sonarqube/
+coverage.xml
 coverage/
 node_modules/
-report/
-coverage.xml
 output.coverage
+report/
+yarn-error.log

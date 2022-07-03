@@ -9,6 +9,8 @@ public class Backlog : TaskBase
 
     public string Title { get; set; } = null!;
 
+    public int EpicId { get; set; }
+
     public Epic? Epic { get; set; }
 
     public List<BacklogTask>? BacklogTasks { get; set; }
@@ -18,10 +20,14 @@ public class Backlog : TaskBase
         public void Configure(EntityTypeBuilder<Backlog> builder)
         {
             // 代替キー
-            builder.HasIndex(feature => new { feature.Epic, feature.Title }).IsUnique();
+            builder.HasIndex(backlog => new { backlog.EpicId, backlog.Title }).IsUnique();
 
             // 外部参照キー
-            builder.HasOne(feature => feature.Epic).WithMany(epic => epic.Features);
+            builder
+                .HasOne(backlog => backlog.Epic)
+                .WithMany(epic => epic.Backlogs)
+                .HasForeignKey(backlog => backlog.EpicId)
+                .IsRequired();
         }
     }
 }

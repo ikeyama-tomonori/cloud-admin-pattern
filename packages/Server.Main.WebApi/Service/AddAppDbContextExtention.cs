@@ -25,11 +25,7 @@ public static class AddAppDbContextExtention
                 var serverVersion = ServerVersion.AutoDetect(connectionString);
 
                 options
-                    .UseMySql(
-                        connectionString,
-                        serverVersion,
-                        options => options.MigrationsAssembly("Server.EntoryPoint.AppDbMigration")
-                    )
+                    .UseMySql(connectionString, serverVersion)
                     .EnableSensitiveDataLogging()
                     .EnableDetailedErrors();
             }

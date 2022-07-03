@@ -5,12 +5,13 @@ import { createMemoryHistory } from 'history';
 import {
     AdminContext,
     CoreAdminRoutes,
-    UpdateParams,
-    UpdateResult,
+    DataProvider,
     GetOneParams,
     GetOneResult,
     Resource,
     testDataProvider,
+    UpdateParams,
+    UpdateResult,
 } from 'react-admin';
 import getOrganizationEdit from './getOrganizationEdit';
 
@@ -46,7 +47,7 @@ describe('<OrganizationEdit />', () => {
                         name: '##name##',
                     },
                 })
-            );
+            ) as DataProvider['getOne'];
 
         act(() => {
             history.push('/organizations/1');
@@ -83,7 +84,7 @@ describe('<OrganizationEdit />', () => {
                         name: '##name## updated',
                     },
                 })
-            );
+            ) as DataProvider['update'];
 
         user.click(
             screen.getByRole('button', {

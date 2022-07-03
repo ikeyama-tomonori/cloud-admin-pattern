@@ -8,6 +8,7 @@ import {
     GetOneResult,
     Resource,
     testDataProvider,
+    DataProvider,
 } from 'react-admin';
 import getOrganizationShow from './getOrganizationShow';
 
@@ -38,7 +39,8 @@ describe('<OrganizationShow />', () => {
                 Promise.resolve({
                     data: { id: 1, name: '##name##' },
                 })
-            );
+            ) as DataProvider['getOne'];
+
         act(() => {
             history.push('/organizations/1/show');
         });

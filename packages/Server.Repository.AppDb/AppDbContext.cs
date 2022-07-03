@@ -1,6 +1,7 @@
 ﻿namespace Server.Repository.AppDb;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 public class AppDbContext : DbContext
 {
@@ -19,5 +20,16 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfiguration(new Entity.Epic.Configuration());
         modelBuilder.ApplyConfiguration(new Entity.Backlog.Configuration());
         modelBuilder.ApplyConfiguration(new Entity.BacklogTask.Configuration());
+    }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Properties<DateTime>().HaveConversion<DateTimeConverter>();
+    }
+
+    // DateTimeはすべてUtcとして扱う
+    private sealed class DateTimeConverter : ValueConverter<DateTime, DateTime>
+    {
+        public DateTimeConverter() : base(v => v, v => new DateTime(v.Ticks, DateTimeKind.Utc)) { }
     }
 }
