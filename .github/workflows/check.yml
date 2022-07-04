@@ -37,10 +37,10 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
               run: |
-                  dotnet sonarscanner begin /k:"ikeyama-tomonori_cloud-admin-pattern_cs" /o:"ikeyama-tomonori" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"  /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+                  dotnet sonarscanner begin /k:"ikeyama-tomonori_cloud-admin-pattern_cs" /o:"ikeyama-tomonori" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"  /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.xunit.reportsPaths="**/TestResults.xml" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
                   dotnet build
                   dotnet run --project packages/Server.Main.AppDbMigration
-                  dotnet coverage collect 'dotnet test' -f xml -o 'coverage.xml'
+                  dotnet coverage collect 'dotnet test --logger:xunit' -f xml -o 'coverage.xml'
                   dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
             - name: Set up Node
               uses: actions/setup-node@v3
