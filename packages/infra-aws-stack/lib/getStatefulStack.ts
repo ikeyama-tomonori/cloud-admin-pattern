@@ -13,10 +13,11 @@ interface Config {
         account?: string;
         region?: string;
     };
-    createVpc: (params: Promise<{ scope: Construct }>) => Promise<Vpc>;
-    createRds: (
-        params: Promise<{ scope: Construct; vpc: Vpc }>
-    ) => Promise<DatabaseCluster | DatabaseInstance | ServerlessCluster>;
+    createVpc: (params: { scope: Construct }) => Promise<Vpc>;
+    createRds: (params: {
+        scope: Construct;
+        vpc: Vpc;
+    }) => Promise<DatabaseCluster | DatabaseInstance | ServerlessCluster>;
 }
 
 interface Params {
@@ -33,13 +34,11 @@ export default ({ name, env, createVpc, createRds }: Config) =>
             })
             // VPCの作成
             .then(async ({ stack }) => {
-                const vpc = await createVpc(Promise.resolve({ scope: stack }));
+                const vpc = await createVpc({ scope: stack });
                 return { stack, vpc };
             })
             // RDSの作成
             .then(async ({ stack, vpc }) => {
-                const db = await createRds(
-                    Promise.resolve({ scope: stack, vpc })
-                );
+                const db = await createRds({ scope: stack, vpc });
                 return { vpc, db };
             });

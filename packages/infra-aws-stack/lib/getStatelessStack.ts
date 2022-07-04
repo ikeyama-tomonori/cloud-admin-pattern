@@ -15,27 +15,21 @@ interface Config {
         account?: string;
         region?: string;
     };
-    createAlbService: (
-        params: Promise<{
-            scope: Construct;
-            vpc: Vpc;
-            db: DatabaseCluster | DatabaseInstance | ServerlessCluster;
-        }>
-    ) => Promise<ApplicationLoadBalancedFargateService>;
-    createRdbMigrationTask: (
-        params: Promise<{
-            scope: Construct;
-            db: DatabaseCluster | DatabaseInstance | ServerlessCluster;
-        }>
-    ) => Promise<TaskDefinition>;
-    createRunTaskOnce: (
-        params: Promise<{
-            scope: Construct;
-            task: TaskDefinition;
-            cluster: ICluster;
-            db: DatabaseCluster | DatabaseInstance | ServerlessCluster;
-        }>
-    ) => Promise<unknown>;
+    createAlbService: (params: {
+        scope: Construct;
+        vpc: Vpc;
+        db: DatabaseCluster | DatabaseInstance | ServerlessCluster;
+    }) => Promise<ApplicationLoadBalancedFargateService>;
+    createRdbMigrationTask: (params: {
+        scope: Construct;
+        db: DatabaseCluster | DatabaseInstance | ServerlessCluster;
+    }) => Promise<TaskDefinition>;
+    createRunTaskOnce: (params: {
+        scope: Construct;
+        task: TaskDefinition;
+        cluster: ICluster;
+        db: DatabaseCluster | DatabaseInstance | ServerlessCluster;
+    }) => Promise<unknown>;
 }
 
 interface Params {
@@ -60,22 +54,25 @@ export default ({
             })
             // ALB Serviceの作成
             .then(async ({ stack, vpc, db }) => {
-                const albService = await createAlbService(
-                    Promise.resolve({ scope: stack, vpc, db })
-                );
+                const albService = await createAlbService({
+                    scope: stack,
+                    vpc,
+                    db,
+                });
                 const { cluster } = albService;
                 return { stack, db, cluster };
             })
             // Migration用Task定義の作成
             .then(async ({ stack, db, cluster }) => {
-                const task = await createRdbMigrationTask(
-                    Promise.resolve({ scope: stack, db })
-                );
+                const task = await createRdbMigrationTask({ scope: stack, db });
                 return { stack, cluster, task, db };
             })
             .then(async ({ stack, cluster, task, db }) => {
-                const runTask = await createRunTaskOnce(
-                    Promise.resolve({ scope: stack, cluster, task, db })
-                );
+                const runTask = await createRunTaskOnce({
+                    scope: stack,
+                    cluster,
+                    task,
+                    db,
+                });
                 return { runTask };
             });

@@ -1,10 +1,16 @@
-name: Build
+name: Check for .NET projects.
 on:
     push:
         branches:
             - main
+        paths:
+            - 'packages/Server.*/**'
+            - '.github/workflows/check-cs.yml'
     pull_request:
         types: [opened, synchronize, reopened]
+        paths:
+            - 'packages/Server.*/**'
+            - '.github/workflows/check-cs.yml'
 jobs:
     check:
         name: Check
@@ -13,7 +19,7 @@ jobs:
             - uses: actions/checkout@v2
               with:
                   fetch-depth: 0
-            - name: Run docker
+            - name: Run docker for test
               shell: bash
               run: docker-compose up -d
             - name: Set up JDK 11
@@ -32,36 +38,16 @@ jobs:
                   dotnet format analyzers --verify-no-changes
             - name: Build for check
               run: dotnet build -c Release -warnaserror
-            - name: Build and analyze for C#
+            - name: Run test
+              run: |
+                  dotnet run --project packages/Server.Main.AppDbMigration
+                  dotnet test -c Release --no-build --collect:"Code Coverage" --logger:xunit
+                  dotnet coverage merge -f xml -o coverage.xml packages/**/TestResults/*/*.coverage
+            - name: Build and analyze
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
               run: |
                   dotnet sonarscanner begin /k:"ikeyama-tomonori_cloud-admin-pattern_cs" /o:"ikeyama-tomonori" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"  /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.xunit.reportsPaths="**/TestResults.xml" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
                   dotnet build
-                  dotnet run --project packages/Server.Main.AppDbMigration
-                  dotnet coverage collect 'dotnet test --logger:xunit' -f xml -o 'coverage.xml'
                   dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-            - name: Set up Node
-              uses: actions/setup-node@v3
-            - name: Install packages
-              run: yarn install
-            - name: Lint
-              run: yarn lint
-            - name: Test
-              run: yarn test run --coverage
-            - name: SonarCloud Scan
-              uses: SonarSource/sonarcloud-github-action@master
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-              with:
-                  args: >
-                      -Dsonar.projectKey=ikeyama-tomonori_cloud-admin-pattern_ts
-                      -Dsonar.organization=ikeyama-tomonori
-                      -Dsonar.host.url=https://sonarcloud.io
-                      -Dsonar.sources=packages
-                      -Dsonar.tests=packages
-                      -Dsonar.test.inclusions=**/*.test.tsx,**/*.test.ts
-                      -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
-                      -Dsonar.testExecutionReportPaths=report/sonar-report.xml

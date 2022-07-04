@@ -22,8 +22,8 @@ interface Params {
 }
 
 export default ({ name, assetPath }: Config) =>
-    (handler: Promise<Params>) =>
-        handler
+    (params: Params) =>
+        Promise.resolve(params)
             // タスク定義の作成
             .then(({ scope, ...rest }) => {
                 const task = new FargateTaskDefinition(scope, `${name}TaskDef`);

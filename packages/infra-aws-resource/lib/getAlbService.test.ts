@@ -20,7 +20,7 @@ describe('getAlbService', () => {
             name: 'TestAlbService',
             assetPath: './dist/webapp',
         });
-        await createAlb(Promise.resolve({ scope: stack, vpc, db }));
+        await createAlb({ scope: stack, vpc, db });
 
         const template = Template.fromStack(stack);
 

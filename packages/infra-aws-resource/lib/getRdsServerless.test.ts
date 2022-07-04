@@ -29,7 +29,7 @@ describe('getRdsServerless', () => {
             ],
         });
         const createRds = getRdsServerless({ name: 'TestDatabase' });
-        await createRds(Promise.resolve({ scope: stack, vpc }));
+        await createRds({ scope: stack, vpc });
 
         const template = Template.fromStack(stack);
         template.hasResourceProperties('AWS::RDS::DBCluster', {

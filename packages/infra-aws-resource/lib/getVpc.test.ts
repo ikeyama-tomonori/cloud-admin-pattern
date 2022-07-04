@@ -9,7 +9,7 @@ describe('getVpc', () => {
             env: { account: '000000000000', region: 'ap-northeast-1' },
         });
         const createVpc = getVpc({ name: 'TestVpc' });
-        await createVpc(Promise.resolve({ scope: stack }));
+        await createVpc({ scope: stack });
 
         Template.fromStack(stack).resourceCountIs('AWS::EC2::Subnet', 9);
     });
