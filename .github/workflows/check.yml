@@ -60,8 +60,8 @@ jobs:
                       -Dsonar.projectKey=ikeyama-tomonori_cloud-admin-pattern_ts
                       -Dsonar.organization=ikeyama-tomonori
                       -Dsonar.host.url=https://sonarcloud.io
-                      -Dsonar.sources="packages"
-                      -Dsonar.tests="packages"
-                      -Dsonar.test.inclusions="**/*.test.tsx,**/*.test.ts"
-                      -Dsonar.typescript.lcov.reportPaths="coverage/lcov.info"
-                      -Dsonar.testExecutionReportPaths="report/sonar-report.xml"
+                      -Dsonar.sources=packages
+                      -Dsonar.tests=packages
+                      -Dsonar.test.inclusions=**/*.test.tsx,**/*.test.ts
+                      -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+                      -Dsonar.testExecutionReportPaths=report/sonar-report.xml
