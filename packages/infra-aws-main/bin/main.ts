@@ -46,4 +46,4 @@ const app = getApp({
     }),
 });
 
-Promise.resolve(app(Promise.resolve()));
+Promise.resolve(app());

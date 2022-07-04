@@ -19,8 +19,8 @@ interface Config {
 }
 
 export default ({ statefulStack, statelessStack }: Config) =>
-    (handler: Promise<unknown>) =>
-        handler
+    () =>
+        Promise.resolve()
             // Appの作成
             .then(() => ({
                 app: new App(),

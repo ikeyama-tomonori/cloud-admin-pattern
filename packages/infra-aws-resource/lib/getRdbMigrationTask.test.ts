@@ -20,7 +20,7 @@ describe('getRdbMigrationTask', () => {
             name: 'TestMigration',
             assetPath: './dist/migration',
         });
-        await createRdbMigrationTask(Promise.resolve({ scope: stack, db }));
+        await createRdbMigrationTask({ scope: stack, db });
 
         const template = Template.fromStack(stack);
         template.hasResourceProperties('AWS::ECS::TaskDefinition', {

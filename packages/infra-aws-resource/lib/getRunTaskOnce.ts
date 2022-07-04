@@ -19,8 +19,8 @@ interface Params {
 }
 
 export default ({ name }: Config) =>
-    (handler: Promise<Params>) =>
-        handler
+    (params: Params) =>
+        Promise.resolve(params)
             // RunTask(カスタムリソース)の作成
             .then(({ scope, task, cluster, db }) => {
                 const runTask = new RunTask(scope, name, {

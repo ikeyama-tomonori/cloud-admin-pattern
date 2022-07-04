@@ -23,7 +23,7 @@ describe('getRunTaskOnce', () => {
         const createAlb = getRunTaskOnce({
             name: 'TestAlbService',
         });
-        await createAlb(Promise.resolve({ scope: stack, cluster, task, db }));
+        await createAlb({ scope: stack, cluster, task, db });
 
         const template = Template.fromStack(stack);
 

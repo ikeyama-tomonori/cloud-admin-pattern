@@ -20,8 +20,8 @@ interface Params {
 }
 
 export default ({ name, assetPath }: Config) =>
-    (handler: Promise<Params>) =>
-        handler
+    (params: Params) =>
+        Promise.resolve(params)
             // Serviceの追加
             .then(({ scope, vpc, db }) => {
                 const { secret } = db;

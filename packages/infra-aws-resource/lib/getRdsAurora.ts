@@ -22,8 +22,8 @@ interface Params {
 }
 
 export default ({ name }: Config) =>
-    (handler: Promise<Params>) =>
-        handler
+    (params: Params) =>
+        Promise.resolve(params)
             // RDS 作成
             .then(
                 ({ scope, vpc }) =>

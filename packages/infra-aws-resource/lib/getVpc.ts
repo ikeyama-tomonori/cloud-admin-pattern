@@ -12,8 +12,8 @@ interface Params {
 }
 
 export default ({ name, maxAzs, natGateways }: Config) =>
-    (handler: Promise<Params>) =>
-        handler
+    (params: Params) =>
+        Promise.resolve(params)
             // VPC 作成
             .then(
                 ({ scope }) =>
