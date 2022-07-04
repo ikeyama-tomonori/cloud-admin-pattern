@@ -4,6 +4,7 @@ import { createMemoryHistory } from 'history';
 import {
     AdminContext,
     CoreAdminRoutes,
+    DataProvider,
     GetListParams,
     GetListResult,
     Resource,
@@ -24,7 +25,7 @@ describe('<OrganizationList />', () => {
                     total: 1,
                     data: [{ id: 1, name: '##name##' }],
                 })
-            );
+            ) as DataProvider['getList'];
 
         render(
             <AdminContext dataProvider={dataProvider} history={history}>

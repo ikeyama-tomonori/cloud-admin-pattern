@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Server.EntoryPoint.AppDbMigration.Migrations
+namespace Server.Main.AppDbMigration.Migrations
 {
     public partial class Init : Migration
     {
@@ -25,7 +25,7 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
                                     MySqlValueGenerationStrategy.IdentityColumn
                                 ),
                             Name = table
-                                .Column<string>(type: "longtext", nullable: false)
+                                .Column<string>(type: "varchar(255)", nullable: false)
                                 .Annotation("MySql:CharSet", "utf8mb4")
                         },
                     constraints: table =>
@@ -48,11 +48,7 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
                                     MySqlValueGenerationStrategy.IdentityColumn
                                 ),
                             Name = table
-                                .Column<string>(
-                                    type: "varchar(100)",
-                                    maxLength: 100,
-                                    nullable: false
-                                )
+                                .Column<string>(type: "varchar(255)", nullable: false)
                                 .Annotation("MySql:CharSet", "utf8mb4"),
                             OrganizationId = table.Column<int>(type: "int", nullable: false),
                             InitialStart = table.Column<DateTime>(
@@ -107,7 +103,7 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
                                     MySqlValueGenerationStrategy.IdentityColumn
                                 ),
                             Title = table
-                                .Column<string>(type: "longtext", nullable: false)
+                                .Column<string>(type: "varchar(255)", nullable: false)
                                 .Annotation("MySql:CharSet", "utf8mb4"),
                             ProjectId = table.Column<int>(type: "int", nullable: false),
                             InitialStart = table.Column<DateTime>(
@@ -151,7 +147,7 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
 
             migrationBuilder
                 .CreateTable(
-                    name: "Features",
+                    name: "Backlogs",
                     columns: table =>
                         new
                         {
@@ -162,7 +158,7 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
                                     MySqlValueGenerationStrategy.IdentityColumn
                                 ),
                             Title = table
-                                .Column<string>(type: "longtext", nullable: false)
+                                .Column<string>(type: "varchar(255)", nullable: false)
                                 .Annotation("MySql:CharSet", "utf8mb4"),
                             EpicId = table.Column<int>(type: "int", nullable: false),
                             InitialStart = table.Column<DateTime>(
@@ -192,9 +188,9 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
                         },
                     constraints: table =>
                     {
-                        table.PrimaryKey("PK_Features", x => x.Id);
+                        table.PrimaryKey("PK_Backlogs", x => x.Id);
                         table.ForeignKey(
-                            name: "FK_Features_Epics_EpicId",
+                            name: "FK_Backlogs_Epics_EpicId",
                             column: x => x.EpicId,
                             principalTable: "Epics",
                             principalColumn: "Id",
@@ -206,7 +202,7 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
 
             migrationBuilder
                 .CreateTable(
-                    name: "Tasks",
+                    name: "BacklogTasks",
                     columns: table =>
                         new
                         {
@@ -217,9 +213,9 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
                                     MySqlValueGenerationStrategy.IdentityColumn
                                 ),
                             Title = table
-                                .Column<string>(type: "longtext", nullable: false)
+                                .Column<string>(type: "varchar(255)", nullable: false)
                                 .Annotation("MySql:CharSet", "utf8mb4"),
-                            FeatureId = table.Column<int>(type: "int", nullable: false),
+                            BacklogId = table.Column<int>(type: "int", nullable: false),
                             InitialStart = table.Column<DateTime>(
                                 type: "datetime(6)",
                                 nullable: false
@@ -247,11 +243,11 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
                         },
                     constraints: table =>
                     {
-                        table.PrimaryKey("PK_Tasks", x => x.Id);
+                        table.PrimaryKey("PK_BacklogTasks", x => x.Id);
                         table.ForeignKey(
-                            name: "FK_Tasks_Features_FeatureId",
-                            column: x => x.FeatureId,
-                            principalTable: "Features",
+                            name: "FK_BacklogTasks_Backlogs_BacklogId",
+                            column: x => x.BacklogId,
+                            principalTable: "Backlogs",
                             principalColumn: "Id",
                             onDelete: ReferentialAction.Cascade
                         );
@@ -260,35 +256,46 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Epics_ProjectId",
+                name: "IX_Backlogs_EpicId_Title",
+                table: "Backlogs",
+                columns: new[] { "EpicId", "Title" },
+                unique: true
+            );
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BacklogTasks_BacklogId_Title",
+                table: "BacklogTasks",
+                columns: new[] { "BacklogId", "Title" },
+                unique: true
+            );
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Epics_ProjectId_Title",
                 table: "Epics",
-                column: "ProjectId"
+                columns: new[] { "ProjectId", "Title" },
+                unique: true
             );
 
             migrationBuilder.CreateIndex(
-                name: "IX_Features_EpicId",
-                table: "Features",
-                column: "EpicId"
+                name: "IX_Organizations_Name",
+                table: "Organizations",
+                column: "Name",
+                unique: true
             );
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_OrganizationId",
+                name: "IX_Projects_OrganizationId_Name",
                 table: "Projects",
-                column: "OrganizationId"
-            );
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tasks_FeatureId",
-                table: "Tasks",
-                column: "FeatureId"
+                columns: new[] { "OrganizationId", "Name" },
+                unique: true
             );
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(name: "Tasks");
+            migrationBuilder.DropTable(name: "BacklogTasks");
 
-            migrationBuilder.DropTable(name: "Features");
+            migrationBuilder.DropTable(name: "Backlogs");
 
             migrationBuilder.DropTable(name: "Epics");
 

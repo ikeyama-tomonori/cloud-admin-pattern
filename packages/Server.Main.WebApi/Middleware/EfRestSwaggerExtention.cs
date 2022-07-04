@@ -1,4 +1,4 @@
-namespace Server.EntoryPoint.WebApi.Middleware;
+namespace Server.Main.WebApi.Middleware;
 
 using System.Text;
 using EfRest.Swagger;

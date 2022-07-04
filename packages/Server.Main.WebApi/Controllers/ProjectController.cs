@@ -1,4 +1,4 @@
-﻿namespace Server.EntoryPoint.WebApi.Controllers;
+﻿namespace Server.Main.WebApi.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
 

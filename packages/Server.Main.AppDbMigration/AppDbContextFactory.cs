@@ -1,4 +1,4 @@
-namespace Server.EntoryPoint.AppDbMigration;
+namespace Server.Main.AppDbMigration;
 
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +29,7 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
             .UseMySql(
                 connectionString,
                 serverVersion,
-                x => x.MigrationsAssembly("Server.EntoryPoint.AppDbMigration")
+                x => x.MigrationsAssembly("Server.Main.AppDbMigration")
             )
             .LogTo(action: Console.WriteLine, minimumLevel: LogLevel.Information)
             .EnableSensitiveDataLogging()

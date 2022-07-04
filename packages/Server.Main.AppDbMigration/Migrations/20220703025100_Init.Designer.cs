@@ -2,71 +2,26 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Server.Repository.AppDb;
 
 #nullable disable
 
-namespace Server.EntoryPoint.AppDbMigration.Migrations
+namespace Server.Main.AppDbMigration.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220703025100_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Server.Model.Epic", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ActualEffort")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ActualEnd")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("ActualStart")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("InitalEffort")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("InitialEnd")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("InitialStart")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("PlanedEffort")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PlanedEnd")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("PlanedStart")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("Epics");
-                });
-
-            modelBuilder.Entity("Server.Model.Feature", b =>
+            modelBuilder.Entity("Server.Repository.AppDb.Entity.Backlog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -104,31 +59,17 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EpicId");
+                    b.HasIndex("EpicId", "Title")
+                        .IsUnique();
 
-                    b.ToTable("Features");
+                    b.ToTable("Backlogs");
                 });
 
-            modelBuilder.Entity("Server.Model.Organization", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Organizations");
-                });
-
-            modelBuilder.Entity("Server.Model.Project", b =>
+            modelBuilder.Entity("Server.Repository.AppDb.Entity.BacklogTask", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -143,55 +84,7 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
                     b.Property<DateTime?>("ActualStart")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("InitalEffort")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("InitialEnd")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("InitialStart")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<int>("OrganizationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlanedEffort")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PlanedEnd")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("PlanedStart")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrganizationId");
-
-                    b.ToTable("Projects");
-                });
-
-            modelBuilder.Entity("Server.Model.Task", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ActualEffort")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ActualEnd")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("ActualStart")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("FeatureId")
+                    b.Property<int>("BacklogId")
                         .HasColumnType("int");
 
                     b.Property<int>("InitalEffort")
@@ -214,18 +107,155 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FeatureId");
+                    b.HasIndex("BacklogId", "Title")
+                        .IsUnique();
 
-                    b.ToTable("Tasks");
+                    b.ToTable("BacklogTasks");
                 });
 
-            modelBuilder.Entity("Server.Model.Epic", b =>
+            modelBuilder.Entity("Server.Repository.AppDb.Entity.Epic", b =>
                 {
-                    b.HasOne("Server.Model.Project", "Project")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ActualEffort")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ActualEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("ActualStart")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("InitalEffort")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("InitialEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("InitialStart")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("PlanedEffort")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PlanedEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("PlanedStart")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId", "Title")
+                        .IsUnique();
+
+                    b.ToTable("Epics");
+                });
+
+            modelBuilder.Entity("Server.Repository.AppDb.Entity.Organization", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Organizations");
+                });
+
+            modelBuilder.Entity("Server.Repository.AppDb.Entity.Project", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ActualEffort")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ActualEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("ActualStart")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("InitalEffort")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("InitialEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("InitialStart")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlanedEffort")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PlanedEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("PlanedStart")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId", "Name")
+                        .IsUnique();
+
+                    b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("Server.Repository.AppDb.Entity.Backlog", b =>
+                {
+                    b.HasOne("Server.Repository.AppDb.Entity.Epic", "Epic")
+                        .WithMany("Backlogs")
+                        .HasForeignKey("EpicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Epic");
+                });
+
+            modelBuilder.Entity("Server.Repository.AppDb.Entity.BacklogTask", b =>
+                {
+                    b.HasOne("Server.Repository.AppDb.Entity.Backlog", "Backlog")
+                        .WithMany("BacklogTasks")
+                        .HasForeignKey("BacklogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Backlog");
+                });
+
+            modelBuilder.Entity("Server.Repository.AppDb.Entity.Epic", b =>
+                {
+                    b.HasOne("Server.Repository.AppDb.Entity.Project", "Project")
                         .WithMany("Epics")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -234,20 +264,9 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("Server.Model.Feature", b =>
+            modelBuilder.Entity("Server.Repository.AppDb.Entity.Project", b =>
                 {
-                    b.HasOne("Server.Model.Epic", "Epic")
-                        .WithMany("Features")
-                        .HasForeignKey("EpicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Epic");
-                });
-
-            modelBuilder.Entity("Server.Model.Project", b =>
-                {
-                    b.HasOne("Server.Model.Organization", "Organization")
+                    b.HasOne("Server.Repository.AppDb.Entity.Organization", "Organization")
                         .WithMany("Projects")
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -256,33 +275,22 @@ namespace Server.EntoryPoint.AppDbMigration.Migrations
                     b.Navigation("Organization");
                 });
 
-            modelBuilder.Entity("Server.Model.Task", b =>
+            modelBuilder.Entity("Server.Repository.AppDb.Entity.Backlog", b =>
                 {
-                    b.HasOne("Server.Model.Feature", "Feature")
-                        .WithMany("Tasks")
-                        .HasForeignKey("FeatureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Feature");
+                    b.Navigation("BacklogTasks");
                 });
 
-            modelBuilder.Entity("Server.Model.Epic", b =>
+            modelBuilder.Entity("Server.Repository.AppDb.Entity.Epic", b =>
                 {
-                    b.Navigation("Features");
+                    b.Navigation("Backlogs");
                 });
 
-            modelBuilder.Entity("Server.Model.Feature", b =>
-                {
-                    b.Navigation("Tasks");
-                });
-
-            modelBuilder.Entity("Server.Model.Organization", b =>
+            modelBuilder.Entity("Server.Repository.AppDb.Entity.Organization", b =>
                 {
                     b.Navigation("Projects");
                 });
 
-            modelBuilder.Entity("Server.Model.Project", b =>
+            modelBuilder.Entity("Server.Repository.AppDb.Entity.Project", b =>
                 {
                     b.Navigation("Epics");
                 });

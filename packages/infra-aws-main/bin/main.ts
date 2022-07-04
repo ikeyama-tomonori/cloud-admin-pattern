@@ -3,7 +3,7 @@ import { getApp } from '@infra-aws/app';
 import {
     getAlbService,
     getRdbMigrationTask,
-    getRdsMysql as getRds,
+    getRdsServerless as getRds,
     getRunTaskOnce,
     getVpc,
 } from '@infra-aws/resource';
