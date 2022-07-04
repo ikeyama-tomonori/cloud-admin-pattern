@@ -7,13 +7,11 @@ using Server.Repository.AppDb;
 
 public static class AddAppDbContextExtention
 {
-    public static IServiceCollection AddAppDbContext(
-        this IServiceCollection services,
-        IConfiguration config
-    ) =>
+    public static IServiceCollection AddAppDbContext(this IServiceCollection services) =>
         services.AddDbContext<AppDbContext>(
-            (services, options) =>
+            (serviceProvider, options) =>
             {
+                var config = serviceProvider.GetRequiredService<IConfiguration>();
                 var jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
                 var dbSecretJson = config["DbSecret"];
                 var dbSecret = dbSecretJson is string json
