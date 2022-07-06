@@ -28,4 +28,6 @@ public static class AddAppDbContextExtention
                     .EnableDetailedErrors();
             }
         );
+
+    private sealed record DbSecret(string Host, string Username, string Password);
 }

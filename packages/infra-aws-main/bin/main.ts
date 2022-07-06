@@ -25,7 +25,7 @@ const app = getApp({
         // 3 Azを利用するため接続先を明示する
         env,
         // VPCリソース
-        createVpc: getVpc({ name: 'Vpc', maxAzs: 3, natGateways: 1 }),
+        createVpc: getVpc({ name: 'Vpc', maxAzs: 2, natGateways: 0 }),
         // RDSリソース
         createRds: getRds({ name: 'Database' }),
     }),

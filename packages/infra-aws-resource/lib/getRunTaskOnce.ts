@@ -1,11 +1,17 @@
-import { RunTask } from 'cdk-fargate-run-task';
-import { TaskDefinition, ICluster } from 'aws-cdk-lib/aws-ecs';
-import { Construct } from 'constructs';
+import { SecurityGroup, SubnetType, Connections } from 'aws-cdk-lib/aws-ec2';
+import { ICluster, LaunchType, TaskDefinition } from 'aws-cdk-lib/aws-ecs';
+import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import {
     DatabaseCluster,
     DatabaseInstance,
     ServerlessCluster,
 } from 'aws-cdk-lib/aws-rds';
+import {
+    AwsCustomResource,
+    AwsCustomResourcePolicy,
+    PhysicalResourceId,
+} from 'aws-cdk-lib/custom-resources';
+import { Construct } from 'constructs';
 
 interface Config {
     name: string;
@@ -21,12 +27,59 @@ interface Params {
 export default ({ name }: Config) =>
     (params: Params) =>
         Promise.resolve(params)
-            // RunTask(カスタムリソース)の作成
+            // Custom Resourceの実行内容を定義
             .then(({ scope, task, cluster, db }) => {
-                const runTask = new RunTask(scope, name, {
-                    task,
-                    cluster,
-                    runOnResourceUpdate: true,
+                const securityGroup = new SecurityGroup(
+                    scope,
+                    `${name}SecurityGroup`,
+                    { vpc: cluster.vpc }
+                );
+                const onEvent = {
+                    service: 'ECS',
+                    action: 'runTask',
+                    parameters: {
+                        cluster: cluster.clusterName,
+                        taskDefinition: task.taskDefinitionArn,
+                        launchType: LaunchType.FARGATE,
+                        networkConfiguration: {
+                            awsvpcConfiguration: {
+                                assignPublicIp: 'ENABLED',
+                                subnets: cluster.vpc.selectSubnets({
+                                    subnetType: SubnetType.PUBLIC,
+                                }).subnetIds,
+                                securityGroups: [securityGroup.securityGroupId],
+                            },
+                        },
+                    },
+                    physicalResourceId: PhysicalResourceId.of(
+                        task.taskDefinitionArn
+                    ),
+                };
+                return { scope, task, db, onEvent, securityGroup };
+            })
+            // Custom Resourceの作成
+            .then(({ scope, task, db, onEvent, securityGroup }) => {
+                const runTaskResource = new AwsCustomResource(scope, name, {
+                    onCreate: onEvent,
+                    onUpdate: onEvent,
+                    policy: AwsCustomResourcePolicy.fromSdkCalls({
+                        resources: [task.taskDefinitionArn],
+                    }),
+                    logRetention: RetentionDays.ONE_WEEK,
+                    resourceType: 'Custom::RunTask',
                 });
-                runTask.connections.allowToDefaultPort(db.connections);
+                task.taskRole.grantPassRole(runTaskResource.grantPrincipal);
+                if (task.executionRole)
+                    task.executionRole.grantPassRole(
+                        runTaskResource.grantPrincipal
+                    );
+
+                return { db, securityGroup };
+            })
+            // DBへの接続を許可する
+            .then(({ db, securityGroup }) => {
+                const connections = new Connections({
+                    securityGroups: [securityGroup],
+                });
+                connections.allowToDefaultPort(db.connections);
             });

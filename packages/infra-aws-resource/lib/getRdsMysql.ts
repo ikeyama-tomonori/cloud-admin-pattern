@@ -37,7 +37,7 @@ export default ({ name }: Config) =>
                         ),
                         vpc,
                         vpcSubnets: {
-                            subnetType: SubnetType.PRIVATE_ISOLATED,
+                            subnetType: SubnetType.PUBLIC,
                         },
                     })
             );

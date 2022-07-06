@@ -22,7 +22,7 @@ export default ({ name }: Config) =>
                         engine: DatabaseClusterEngine.AURORA_MYSQL,
                         vpc,
                         vpcSubnets: {
-                            subnetType: SubnetType.PRIVATE_ISOLATED,
+                            subnetType: SubnetType.PUBLIC,
                         },
                     })
             );

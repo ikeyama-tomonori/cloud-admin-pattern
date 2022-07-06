@@ -18,23 +18,12 @@ export default ({ name, maxAzs, natGateways }: Config) =>
             .then(
                 ({ scope }) =>
                     new Vpc(scope, name, {
-                        cidr: '10.0.0.0/16',
                         maxAzs,
                         natGateways,
                         subnetConfiguration: [
                             {
                                 subnetType: SubnetType.PUBLIC,
-                                name: 'Ingress',
-                                cidrMask: 24,
-                            },
-                            {
-                                subnetType: SubnetType.PRIVATE_WITH_NAT,
-                                name: 'Application',
-                                cidrMask: 24,
-                            },
-                            {
-                                subnetType: SubnetType.PRIVATE_ISOLATED,
-                                name: 'Database',
+                                name: 'Public',
                                 cidrMask: 24,
                             },
                         ],
