@@ -11,6 +11,6 @@ describe('getVpc', () => {
         const createVpc = getVpc({ name: 'TestVpc' });
         await createVpc({ scope: stack });
 
-        Template.fromStack(stack).resourceCountIs('AWS::EC2::Subnet', 6);
+        Template.fromStack(stack).resourceCountIs('AWS::EC2::Subnet', 3);
     });
 });

@@ -34,7 +34,7 @@ describe('getRdsAurora', () => {
         const template = Template.fromStack(stack);
         template.hasResourceProperties('AWS::RDS::DBInstance', {
             Engine: 'aurora-mysql',
-            PubliclyAccessible: false,
+            PubliclyAccessible: true,
         });
     });
 });
