@@ -3,6 +3,7 @@ using Server.Main.WebApi.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCloudCqsOptions();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -10,6 +11,7 @@ builder.Services.AddAppDbContext();
 
 var app = builder.Build();
 
+app.UseHsts();
 app.UseHttpLogging();
 app.UseSwaggerUI();
 app.UseEfRestSwagger();

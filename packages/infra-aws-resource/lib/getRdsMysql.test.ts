@@ -34,7 +34,7 @@ describe('getRdsMysql', () => {
         const template = Template.fromStack(stack);
         template.hasResourceProperties('AWS::RDS::DBInstance', {
             Engine: 'mysql',
-            PubliclyAccessible: false,
+            PubliclyAccessible: true,
         });
     });
 });

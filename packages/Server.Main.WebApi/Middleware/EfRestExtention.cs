@@ -13,52 +13,16 @@ public static class EfRestExtention
             [TypeFilter(typeof(StatusCodeExceptionFilter))]
             async (
                 AppDbContext db,
-                ILogger<EfRest.EfRestServer> logger,
-                IOptions<JsonOptions> options,
+                CloudCqsOptions<EfRest.EfRestServer> cloudCqsOptions,
+                IOptions<JsonOptions> jsonOptions,
                 HttpRequest request,
                 HttpResponse response
             ) =>
             {
-                var jsonSerializerOptions = options.Value.JsonSerializerOptions;
+                var jsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;
                 var efrest = new EfRest.EfRestServer(db)
                 {
-                    CloudCqsOptions = new()
-                    {
-                        RepositoryExecuted = p =>
-                            logger.LogInformation(
-                                "Executed: {Class} request={Request}, response={Response} in {TotalMilliseconds}ms",
-                                p.RepositoryType.Name,
-                                p.Request,
-                                p.Response,
-                                p.TimeSpan.TotalMilliseconds
-                            ),
-                        RepositoryTerminated = p =>
-                            logger.LogWarning(
-                                "Terminated: {Class} request={Request}, exception={Exception} in {TotalMilliseconds}ms",
-                                p.RepositoryType.Name,
-                                p.Request,
-                                p.Exception,
-                                p.TimeSpan.TotalMilliseconds
-                            ),
-                        FunctionExecuted = p =>
-                            logger.LogInformation(
-                                "Executed: {Class}[{Description}] param={Param}, result={p.Result} in {TotalMilliseconds}ms",
-                                p.RepositoryType.Name,
-                                p.Description,
-                                p.Param,
-                                p.Result,
-                                p.TimeSpan.TotalMilliseconds
-                            ),
-                        FunctionTerminated = p =>
-                            logger.LogWarning(
-                                "Terminated: {Class}[{Description}] param={Param}, exception={Exception} in {TotalMilliseconds}ms",
-                                p.RepositoryType.Name,
-                                p.Description,
-                                p.Param,
-                                p.Exception,
-                                p.TimeSpan.TotalMilliseconds
-                            ),
-                    },
+                    CloudCqsOptions = cloudCqsOptions,
                     JsonSerializerOptions = jsonSerializerOptions,
                 };
                 var method = request.Method;

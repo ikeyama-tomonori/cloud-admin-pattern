@@ -37,4 +37,6 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
         var db = new AppDbContext(builder.Options);
         return db;
     }
+
+    private sealed record DbSecret(string Host, string Username, string Password);
 }

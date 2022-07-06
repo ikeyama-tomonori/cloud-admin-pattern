@@ -32,6 +32,7 @@ export default ({ name, assetPath }: Config) =>
                     name,
                     {
                         vpc,
+                        assignPublicIp: true,
                         desiredCount: 1,
                         taskImageOptions: {
                             image: ContainerImage.fromAsset(assetPath),
