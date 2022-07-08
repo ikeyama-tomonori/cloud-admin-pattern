@@ -4,14 +4,12 @@ on:
         branches:
             - main
         paths:
-            - 'packages/front-*/**'
-            - 'packages/infra-*/**'
+            - 'packages/**'
             - '.github/workflows/check-ts.yml'
     pull_request:
         types: [opened, synchronize, reopened]
         paths:
-            - 'packages/front-*/**'
-            - 'packages/infra-*/**'
+            - 'packages/**'
             - '.github/workflows/check-ts.yml'
 jobs:
     check:
