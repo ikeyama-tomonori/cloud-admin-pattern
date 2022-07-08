@@ -4,12 +4,12 @@ on:
         branches:
             - main
         paths:
-            - 'packages/Server.*/**'
+            - 'server/**'
             - '.github/workflows/check-cs.yml'
     pull_request:
         types: [opened, synchronize, reopened]
         paths:
-            - 'packages/Server.*/**'
+            - 'server/**'
             - '.github/workflows/check-cs.yml'
 jobs:
     check:
@@ -40,9 +40,9 @@ jobs:
               run: dotnet build -c Release -warnaserror
             - name: Run test
               run: |
-                  dotnet run --project packages/Server.Main.AppDbMigration
+                  dotnet run --project server/src/Server.Main.AppDbMigration
                   dotnet test -c Release --no-build --collect:"Code Coverage" --logger:xunit
-                  dotnet coverage merge -f xml -o coverage.xml packages/**/TestResults/*/*.coverage
+                  dotnet coverage merge -f xml -o coverage.xml server/test/**/TestResults/*/*.coverage
             - name: Build and analyze
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

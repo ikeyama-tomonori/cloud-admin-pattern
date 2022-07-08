@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Server.Repository.AppDb\Server.Repository.AppDb.csproj" />
+    <ProjectReference Include="..\..\src\Server.Repository.AppDb\Server.Repository.AppDb.csproj" />
   </ItemGroup>
 
 </Project>
