@@ -15,17 +15,16 @@ export default ({ name, maxAzs, natGateways }: Config) =>
     (params: Params) =>
         Promise.resolve(params)
             // VPC 作成
-            .then(
-                ({ scope }) =>
-                    new Vpc(scope, name, {
-                        maxAzs,
-                        natGateways,
-                        subnetConfiguration: [
-                            {
-                                subnetType: SubnetType.PUBLIC,
-                                name: 'Public',
-                                cidrMask: 24,
-                            },
-                        ],
-                    })
-            );
+            .then(({ scope }) => ({
+                vpc: new Vpc(scope, name, {
+                    maxAzs,
+                    natGateways,
+                    subnetConfiguration: [
+                        {
+                            subnetType: SubnetType.PUBLIC,
+                            name: 'Public',
+                            cidrMask: 24,
+                        },
+                    ],
+                }),
+            }));
