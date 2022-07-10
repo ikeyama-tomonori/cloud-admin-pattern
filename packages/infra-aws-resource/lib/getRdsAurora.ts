@@ -6,9 +6,9 @@ import {
     Vpc,
 } from 'aws-cdk-lib/aws-ec2';
 import {
+    AuroraMysqlEngineVersion,
     DatabaseCluster,
     DatabaseClusterEngine,
-    AuroraMysqlEngineVersion,
 } from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
 
@@ -25,21 +25,20 @@ export default ({ name }: Config) =>
     (params: Params) =>
         Promise.resolve(params)
             // RDS 作成
-            .then(
-                ({ scope, vpc }) =>
-                    new DatabaseCluster(scope, name, {
-                        engine: DatabaseClusterEngine.auroraMysql({
-                            version: AuroraMysqlEngineVersion.VER_2_10_2,
-                        }),
-                        instanceProps: {
-                            instanceType: InstanceType.of(
-                                InstanceClass.BURSTABLE3,
-                                InstanceSize.SMALL
-                            ),
-                            vpcSubnets: {
-                                subnetType: SubnetType.PUBLIC,
-                            },
-                            vpc,
+            .then(({ scope, vpc }) => ({
+                db: new DatabaseCluster(scope, name, {
+                    engine: DatabaseClusterEngine.auroraMysql({
+                        version: AuroraMysqlEngineVersion.VER_2_10_2,
+                    }),
+                    instanceProps: {
+                        instanceType: InstanceType.of(
+                            InstanceClass.BURSTABLE3,
+                            InstanceSize.SMALL
+                        ),
+                        vpcSubnets: {
+                            subnetType: SubnetType.PUBLIC,
                         },
-                    })
-            );
+                        vpc,
+                    },
+                }),
+            }));

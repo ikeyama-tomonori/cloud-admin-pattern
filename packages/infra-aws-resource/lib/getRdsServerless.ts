@@ -1,5 +1,5 @@
 import { SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
-import { ServerlessCluster, DatabaseClusterEngine } from 'aws-cdk-lib/aws-rds';
+import { DatabaseClusterEngine, ServerlessCluster } from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
 
 interface Config {
@@ -15,14 +15,13 @@ export default ({ name }: Config) =>
     (params: Params) =>
         Promise.resolve(params)
             // RDS 作成
-            .then(
-                ({ scope, vpc }) =>
-                    new ServerlessCluster(scope, name, {
-                        enableDataApi: true,
-                        engine: DatabaseClusterEngine.AURORA_MYSQL,
-                        vpc,
-                        vpcSubnets: {
-                            subnetType: SubnetType.PUBLIC,
-                        },
-                    })
-            );
+            .then(({ scope, vpc }) => ({
+                db: new ServerlessCluster(scope, name, {
+                    enableDataApi: true,
+                    engine: DatabaseClusterEngine.AURORA_MYSQL,
+                    vpc,
+                    vpcSubnets: {
+                        subnetType: SubnetType.PUBLIC,
+                    },
+                }),
+            }));

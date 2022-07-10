@@ -2,6 +2,7 @@ import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { DatabaseInstance, DatabaseInstanceEngine } from 'aws-cdk-lib/aws-rds';
+import { HostedZone } from 'aws-cdk-lib/aws-route53';
 import getAlbService from './getAlbService';
 
 describe('getAlbService', () => {
@@ -15,14 +16,22 @@ describe('getAlbService', () => {
             engine: DatabaseInstanceEngine.MYSQL,
             vpc,
         });
-
+        const hostedZone = new HostedZone(stack, 'TestHostedZone', {
+            zoneName: 'test.example.com',
+        });
         const createAlb = getAlbService({
             name: 'TestAlbService',
             assetPath: './dist/webapp',
+            domainName: 'test.example.com',
         });
-        await createAlb({ scope: stack, vpc, db });
+        await createAlb({ scope: stack, vpc, db, hostedZone });
 
         const template = Template.fromStack(stack);
+
+        template.hasResourceProperties('AWS::CertificateManager::Certificate', {
+            DomainName: 'test.example.com',
+            ValidationMethod: 'DNS',
+        });
 
         template.hasResourceProperties(
             'AWS::ElasticLoadBalancingV2::LoadBalancer',
