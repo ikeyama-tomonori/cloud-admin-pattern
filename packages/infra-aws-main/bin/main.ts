@@ -4,15 +4,14 @@ import {
     getAlbService,
     getARecord,
     getCertificate,
-    getCertificateAdd,
+    getCognito,
     getRdbMigrationTask,
-    getRdsServerless as getRds,
+    getRdsMysql as getRds,
     getRoute53,
     getRunTaskOnce,
     getVpc,
 } from '@infra-aws/resource';
 import {
-    getHostedZoneStack,
     getHostNameStack,
     getStatefulStack,
     getStatelessStack,
@@ -27,46 +26,49 @@ const config = {
     distDir: '../../dist',
     domianName: process.env.CDK_APP_DOMAIN_NAME,
     version: process.env.CDK_APP_VERSION,
+    userPoolDomainPrefix: 'abjbgatip7y7',
 };
 
 if (!config.domianName) throw new Error('CDK_APP_DOMAIN_NAME is not set');
 if (!config.version) throw new Error('CDK_APP_VERSION is not set');
 
 const app = getApp({
-    // DNSにZoneを作成
-    hostedZoneStack: getHostedZoneStack({
-        name: 'Dns',
-        env,
-        createRoute53: getRoute53({
-            name: 'HostedZone',
-            zoneName: config.domianName,
-        }),
-    }),
     // ステートフル・リソース向けのスタック
     statefulStack: getStatefulStack({
         name: 'Stateful',
         // 3 Azを利用するため接続先を明示する
         env,
-
+        createRoute53: getRoute53({
+            name: 'HostedZone',
+            zoneName: config.domianName,
+        }),
         // VPCリソース
         createVpc: getVpc({ name: 'Vpc', maxAzs: 2, natGateways: 0 }),
         // RDSリソース
         createRds: getRds({ name: 'Database' }),
+        // Cognitoリソース
+        createCognito: getCognito({
+            name: 'Cognito',
+            domainName: config.domianName,
+            versionDomainName: `v${config.version}.${config.domianName}`,
+            userPoolDomainPrefix: config.userPoolDomainPrefix,
+        }),
     }),
     statelessStack: getStatelessStack({
         name: `StatelessV${config.version}`,
         env,
-        // ALB Service
+        // 証明書を作成
+        createCertificate: getCertificate({
+            name: 'Certificate',
+            domainName: config.domianName,
+        }),
+        // ALB Service を作成
+        // バージョン付きのドメイン名で作成する
         createAlbService: getAlbService({
             name: 'AlbService',
             assetPath: `${config.distDir}/webapp`,
             domainName: `v${config.version}.${config.domianName}`,
         }),
-        createCertificate: getCertificate({
-            name: 'Certificate',
-            domainName: config.domianName,
-        }),
-        addCertificate: getCertificateAdd({ name: 'ListenerCertificate' }),
         // DB Migration用タスク定義
         createRdbMigrationTask: getRdbMigrationTask({
             name: 'Migration',
