@@ -1,7 +1,6 @@
 import getAlbService from './getAlbService';
 import getARecord from './getARecord';
 import getCertificate from './getCertificate';
-import getCertificateAdd from './getCertificateAdd';
 import getCognito from './getCognito';
 import getRdbMigrationTask from './getRdbMigrationTask';
 import getRdsAurora from './getRdsAurora';
@@ -15,7 +14,6 @@ export {
     getAlbService,
     getARecord,
     getCertificate,
-    getCertificateAdd,
     getCognito,
     getRdbMigrationTask,
     getRdsAurora,
