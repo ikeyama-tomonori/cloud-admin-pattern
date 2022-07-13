@@ -1,5 +1,11 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
+import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
+import {
+    UserPool,
+    UserPoolClient,
+    UserPoolDomain,
+} from 'aws-cdk-lib/aws-cognito';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { DatabaseInstance, DatabaseInstanceEngine } from 'aws-cdk-lib/aws-rds';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
@@ -19,19 +25,35 @@ describe('getAlbService', () => {
         const hostedZone = new HostedZone(stack, 'TestHostedZone', {
             zoneName: 'test.example.com',
         });
+        const userPool = new UserPool(stack, 'TestUserPool');
+        const userPoolClient = new UserPoolClient(stack, 'TestUserPoolClient', {
+            userPool,
+        });
+        const userPoolDomain = new UserPoolDomain(stack, 'Domain', {
+            userPool,
+            cognitoDomain: {
+                domainPrefix: 'test',
+            },
+        });
+        const certificate = new Certificate(stack, 'TestCertificate', {
+            domainName: 'test.example.com',
+        });
         const createAlb = getAlbService({
             name: 'TestAlbService',
             assetPath: './dist/webapp',
             domainName: 'test.example.com',
         });
-        await createAlb({ scope: stack, vpc, db, hostedZone });
+
+        await createAlb({
+            scope: stack,
+            vpc,
+            db,
+            hostedZone,
+            cognito: { userPool, userPoolClient, userPoolDomain },
+            certificate,
+        });
 
         const template = Template.fromStack(stack);
-
-        template.hasResourceProperties('AWS::CertificateManager::Certificate', {
-            DomainName: 'test.example.com',
-            ValidationMethod: 'DNS',
-        });
 
         template.hasResourceProperties(
             'AWS::ElasticLoadBalancingV2::LoadBalancer',

@@ -1,7 +1,4 @@
-import {
-    Certificate,
-    CertificateValidation,
-} from 'aws-cdk-lib/aws-certificatemanager';
+import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
 import { Construct } from 'constructs';
 
@@ -20,8 +17,11 @@ export default ({ name, domainName }: Config) =>
         Promise.resolve(params)
             // 証明書の作成
             .then(({ scope, hostedZone }) => ({
-                certificate: new Certificate(scope, name, {
+                certificate: new DnsValidatedCertificate(scope, name, {
                     domainName,
-                    validation: CertificateValidation.fromDns(hostedZone),
+                    hostedZone,
+                    cleanupRoute53Records: true,
+                    // サブドメインへのワイルドカード証明を追加
+                    subjectAlternativeNames: [`*.${domainName}`],
                 }),
             }));

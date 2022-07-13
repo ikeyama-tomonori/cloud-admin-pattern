@@ -3,10 +3,10 @@ import { Template } from 'aws-cdk-lib/assertions';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { ApplicationLoadBalancer } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
-import getAaaaRecord from './getARecord';
+import getARecord from './getARecord';
 
-describe('getAaaaRecord', () => {
-    it('AAAA Recordが作成できる', async () => {
+describe('getARecord', () => {
+    it('A Recordが作成できる', async () => {
         const app = new App();
         const stack = new Stack(app, 'test', {
             env: { account: '000000000000', region: 'ap-northeast-1' },
@@ -21,10 +21,10 @@ describe('getAaaaRecord', () => {
             { vpc }
         );
 
-        const createAaaaRecord = getAaaaRecord({
+        const createARecord = getARecord({
             name: 'TestRecord',
         });
-        await createAaaaRecord({ scope: stack, hostedZone, loadBalancer });
+        await createARecord({ scope: stack, hostedZone, loadBalancer });
 
         const template = Template.fromStack(stack);
 

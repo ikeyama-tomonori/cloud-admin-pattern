@@ -21,9 +21,12 @@ describe('getCertificate', () => {
 
         const template = Template.fromStack(stack);
 
-        template.hasResourceProperties('AWS::CertificateManager::Certificate', {
+        console.log(template.toJSON());
+
+        template.hasResourceProperties('AWS::CloudFormation::CustomResource', {
             DomainName: 'test.example.com',
-            ValidationMethod: 'DNS',
+            SubjectAlternativeNames: ['*.test.example.com'],
+            CleanupRecords: 'true',
         });
     });
 });
