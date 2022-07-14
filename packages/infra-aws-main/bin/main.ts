@@ -1,86 +1,30 @@
 #!/usr/bin/env node
-import { getApp } from '@infra-aws/app';
-import {
-    getAlbService,
-    getARecord,
-    getCertificate,
-    getCognito,
-    getRdbMigrationTask,
-    getRdsMysql as getRds,
-    getRoute53,
-    getRunTaskOnce,
-    getVpc,
-} from '@infra-aws/resource';
-import {
-    getHostNameStack,
-    getStatefulStack,
-    getStatelessStack,
-} from '@infra-aws/stack';
+import getMain from './getMain';
 
-const env = {
-    account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION,
-};
+const account = process.env.CDK_DEFAULT_ACCOUNT;
+const region = process.env.CDK_DEFAULT_REGION;
+const domianName = process.env.CDK_APP_DOMAIN_NAME;
+const version = process.env.CDK_APP_VERSION;
+const userPoolDomainPrefix = process.env.CDK_APP_USER_POOL_DOMAIN_PREFIX;
+
+if (!account) throw new Error('CDK_DEFAULT_ACCOUNT is not set');
+if (!region) throw new Error('CDK_DEFAULT_REGION is not set');
+if (!domianName) throw new Error('CDK_APP_DOMAIN_NAME is not set');
+if (!version) throw new Error('CDK_APP_VERSION is not set');
+if (!userPoolDomainPrefix)
+    throw new Error('CDK_APP_USER_POOL_DOMAIN_PREFIX is not set');
 
 const config = {
+    env: {
+        account,
+        region,
+    },
     distDir: '../../dist',
-    domianName: process.env.CDK_APP_DOMAIN_NAME,
-    version: process.env.CDK_APP_VERSION,
+    domianName,
+    version,
     userPoolDomainPrefix: 'abjbgatip7y7',
 };
 
-if (!config.domianName) throw new Error('CDK_APP_DOMAIN_NAME is not set');
-if (!config.version) throw new Error('CDK_APP_VERSION is not set');
+const main = getMain(config);
 
-const app = getApp({
-    // ステートフル・リソース向けのスタック
-    statefulStack: getStatefulStack({
-        name: 'Stateful',
-        // 3 Azを利用するため接続先を明示する
-        env,
-        createRoute53: getRoute53({
-            name: 'HostedZone',
-            zoneName: config.domianName,
-        }),
-        // VPCリソース
-        createVpc: getVpc({ name: 'Vpc', maxAzs: 2, natGateways: 0 }),
-        // RDSリソース
-        createRds: getRds({ name: 'Database' }),
-        // Cognitoリソース
-        createCognito: getCognito({
-            name: 'Cognito',
-            domainName: config.domianName,
-            versionDomainName: `v${config.version}.${config.domianName}`,
-            userPoolDomainPrefix: config.userPoolDomainPrefix,
-        }),
-    }),
-    statelessStack: getStatelessStack({
-        name: `StatelessV${config.version}`,
-        env,
-        // 証明書を作成
-        createCertificate: getCertificate({
-            name: 'Certificate',
-            domainName: config.domianName,
-        }),
-        // ALB Service を作成
-        // バージョン付きのドメイン名で作成する
-        createAlbService: getAlbService({
-            name: 'AlbService',
-            assetPath: `${config.distDir}/webapp`,
-            domainName: `v${config.version}.${config.domianName}`,
-        }),
-        // DB Migration用タスク定義
-        createRdbMigrationTask: getRdbMigrationTask({
-            name: 'Migration',
-            assetPath: `${config.distDir}/migration`,
-        }),
-        createRunTaskOnce: getRunTaskOnce({ name: 'RunTaskOnce' }),
-    }),
-    hostNameStack: getHostNameStack({
-        name: 'HostName',
-        env,
-        createARecord: getARecord({ name: 'ARecord' }),
-    }),
-});
-
-app();
+main();

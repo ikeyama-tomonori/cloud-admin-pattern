@@ -44,5 +44,5 @@ export default ({
                     loadBalancer,
                 });
 
-                return { aRecord };
+                return { stack, aRecord };
             });

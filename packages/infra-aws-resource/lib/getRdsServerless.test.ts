@@ -1,7 +1,7 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
-import getRdsServerless from './getRdsServerless';
+import { getRdsServerless } from '.';
 
 describe('getRdsServerless', () => {
     it('RDS(AuroraServerless)が作成できる', async () => {

@@ -3,7 +3,6 @@
     "compilerOptions": {
         "module": "commonjs",
         "paths": {
-            "@infra-aws/app": ["../infra-aws-app/lib"],
             "@infra-aws/resource": ["../infra-aws-resource/lib"],
             "@infra-aws/stack": ["../infra-aws-stack/lib"]
         }

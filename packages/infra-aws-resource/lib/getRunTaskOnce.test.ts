@@ -3,7 +3,7 @@ import { Template } from 'aws-cdk-lib/assertions';
 import { Cluster, FargateTaskDefinition } from 'aws-cdk-lib/aws-ecs';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { DatabaseInstance, DatabaseInstanceEngine } from 'aws-cdk-lib/aws-rds';
-import getRunTaskOnce from './getRunTaskOnce';
+import { getRunTaskOnce } from '.';
 
 describe('getRunTaskOnce', () => {
     it('RunTaskOnce(カスタムリソース)が作成できる', async () => {
@@ -13,7 +13,7 @@ describe('getRunTaskOnce', () => {
         });
 
         const cluster = new Cluster(stack, 'TestCluster');
-        const task = new FargateTaskDefinition(stack, 'TestTask');
+        const taskDefinition = new FargateTaskDefinition(stack, 'TestTask');
         const vpc = new Vpc(stack, 'TestVpc');
         const db = new DatabaseInstance(stack, 'TestDb', {
             vpc,
@@ -23,7 +23,7 @@ describe('getRunTaskOnce', () => {
         const createAlb = getRunTaskOnce({
             name: 'TestAlbService',
         });
-        await createAlb({ scope: stack, cluster, task, db });
+        await createAlb({ scope: stack, cluster, taskDefinition, db });
 
         const template = Template.fromStack(stack);
 

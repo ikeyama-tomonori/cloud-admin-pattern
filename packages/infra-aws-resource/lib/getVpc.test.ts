@@ -1,6 +1,6 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
-import getVpc from './getVpc';
+import { getVpc } from '.';
 
 describe('getVpc', () => {
     it('東京リージョンで作成されるサブネットの数は6', async () => {

@@ -19,7 +19,7 @@ interface Config {
 
 interface Params {
     scope: Construct;
-    task: TaskDefinition;
+    taskDefinition: TaskDefinition;
     cluster: ICluster;
     db: DatabaseCluster | DatabaseInstance | ServerlessCluster;
 }
@@ -28,7 +28,7 @@ export default ({ name }: Config) =>
     (params: Params) =>
         Promise.resolve(params)
             // Custom Resourceの実行内容を定義
-            .then(({ scope, task, cluster, db }) => {
+            .then(({ scope, taskDefinition, cluster, db }) => {
                 const securityGroup = new SecurityGroup(
                     scope,
                     `${name}SecurityGroup`,
@@ -39,7 +39,7 @@ export default ({ name }: Config) =>
                     action: 'runTask',
                     parameters: {
                         cluster: cluster.clusterName,
-                        taskDefinition: task.taskDefinitionArn,
+                        taskDefinition: taskDefinition.taskDefinitionArn,
                         launchType: LaunchType.FARGATE,
                         networkConfiguration: {
                             awsvpcConfiguration: {
@@ -52,25 +52,27 @@ export default ({ name }: Config) =>
                         },
                     },
                     physicalResourceId: PhysicalResourceId.of(
-                        task.taskDefinitionArn
+                        taskDefinition.taskDefinitionArn
                     ),
                 };
-                return { scope, task, db, onEvent, securityGroup };
+                return { scope, taskDefinition, db, onEvent, securityGroup };
             })
             // Custom Resourceの作成
-            .then(({ scope, task, db, onEvent, securityGroup }) => {
+            .then(({ scope, taskDefinition, db, onEvent, securityGroup }) => {
                 const runTaskResource = new AwsCustomResource(scope, name, {
                     onCreate: onEvent,
                     onUpdate: onEvent,
                     policy: AwsCustomResourcePolicy.fromSdkCalls({
-                        resources: [task.taskDefinitionArn],
+                        resources: [taskDefinition.taskDefinitionArn],
                     }),
                     logRetention: RetentionDays.ONE_WEEK,
                     resourceType: 'Custom::RunTask',
                 });
-                task.taskRole.grantPassRole(runTaskResource.grantPrincipal);
-                if (task.executionRole)
-                    task.executionRole.grantPassRole(
+                taskDefinition.taskRole.grantPassRole(
+                    runTaskResource.grantPrincipal
+                );
+                if (taskDefinition.executionRole)
+                    taskDefinition.executionRole.grantPassRole(
                         runTaskResource.grantPrincipal
                     );
 

@@ -10,9 +10,10 @@
         "cdk": "cdk"
     },
     "devDependencies": {
-        "@types/node": "18.0.3",
-        "aws-cdk": "2.31.0",
-        "ts-node": "^10.8.2",
+        "@types/node": "18.0.4",
+        "aws-cdk": "2.31.1",
+        "aws-cdk-lib": "2.31.1",
+        "ts-node": "^10.9.0",
         "tsconfig-paths": "^4.0.0"
     }
 }
