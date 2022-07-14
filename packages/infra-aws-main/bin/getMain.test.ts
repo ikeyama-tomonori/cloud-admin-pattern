@@ -8,7 +8,7 @@ describe('getMain', async () => {
                 account: '000000000000',
                 region: 'ap-northeast-1',
             },
-            distDir: 'test/dist',
+            distDir: 'packages/infra-aws-main/test/dist',
             domianName: 'test.example.com',
             version: '99999',
             userPoolDomainPrefix: 'test-prefix',
