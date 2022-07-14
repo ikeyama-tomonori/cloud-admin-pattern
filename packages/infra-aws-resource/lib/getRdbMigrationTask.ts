@@ -45,5 +45,5 @@ export default ({ name, assetPath }: Config) =>
                     logging: new AwsLogDriver({ streamPrefix: task.node.id }),
                 });
 
-                return task;
+                return { taskDefinition: task };
             });

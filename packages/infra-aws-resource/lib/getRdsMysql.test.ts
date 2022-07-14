@@ -1,7 +1,7 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
-import getRdsMysql from './getRdsMysql';
+import { getRdsMysql } from '.';
 
 describe('getRdsMysql', () => {
     it('RDS(MySQL)が作成できる', async () => {

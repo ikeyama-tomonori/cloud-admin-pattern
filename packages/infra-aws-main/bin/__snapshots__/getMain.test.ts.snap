@@ -1,0 +1,1784 @@
+// Vitest Snapshot v1
+
+exports[`getMain > Snapshotが一致する 1`] = `
+{
+  "Outputs": {
+    "ExportsOutputFnGetAttCognito59F7F50EArn5F3E599F": {
+      "Export": {
+        "Name": "Stateful:ExportsOutputFnGetAttCognito59F7F50EArn5F3E599F",
+      },
+      "Value": {
+        "Fn::GetAtt": [
+          "Cognito59F7F50E",
+          "Arn",
+        ],
+      },
+    },
+    "ExportsOutputFnGetAttDatabaseB269D8BBEndpointPort3ACB3F51": {
+      "Export": {
+        "Name": "Stateful:ExportsOutputFnGetAttDatabaseB269D8BBEndpointPort3ACB3F51",
+      },
+      "Value": {
+        "Fn::GetAtt": [
+          "DatabaseB269D8BB",
+          "Endpoint.Port",
+        ],
+      },
+    },
+    "ExportsOutputFnGetAttDatabaseSecurityGroup5C91FDCBGroupId8DCC9244": {
+      "Export": {
+        "Name": "Stateful:ExportsOutputFnGetAttDatabaseSecurityGroup5C91FDCBGroupId8DCC9244",
+      },
+      "Value": {
+        "Fn::GetAtt": [
+          "DatabaseSecurityGroup5C91FDCB",
+          "GroupId",
+        ],
+      },
+    },
+    "ExportsOutputRefCognitoClient85BE2A23D3EF87D3": {
+      "Export": {
+        "Name": "Stateful:ExportsOutputRefCognitoClient85BE2A23D3EF87D3",
+      },
+      "Value": {
+        "Ref": "CognitoClient85BE2A23",
+      },
+    },
+    "ExportsOutputRefDatabaseSecretAttachmentE5D1B020633AEB73": {
+      "Export": {
+        "Name": "Stateful:ExportsOutputRefDatabaseSecretAttachmentE5D1B020633AEB73",
+      },
+      "Value": {
+        "Ref": "DatabaseSecretAttachmentE5D1B020",
+      },
+    },
+    "ExportsOutputRefDomain66AC69E084F15077": {
+      "Export": {
+        "Name": "Stateful:ExportsOutputRefDomain66AC69E084F15077",
+      },
+      "Value": {
+        "Ref": "Domain66AC69E0",
+      },
+    },
+    "ExportsOutputRefHostedZoneDB99F8662BBAE844": {
+      "Export": {
+        "Name": "Stateful:ExportsOutputRefHostedZoneDB99F8662BBAE844",
+      },
+      "Value": {
+        "Ref": "HostedZoneDB99F866",
+      },
+    },
+    "ExportsOutputRefVpc8378EB38272D6E3A": {
+      "Export": {
+        "Name": "Stateful:ExportsOutputRefVpc8378EB38272D6E3A",
+      },
+      "Value": {
+        "Ref": "Vpc8378EB38",
+      },
+    },
+    "ExportsOutputRefVpcPublicSubnet1Subnet5C2D37C4FFA2B456": {
+      "Export": {
+        "Name": "Stateful:ExportsOutputRefVpcPublicSubnet1Subnet5C2D37C4FFA2B456",
+      },
+      "Value": {
+        "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
+      },
+    },
+    "ExportsOutputRefVpcPublicSubnet2Subnet691E08A351552740": {
+      "Export": {
+        "Name": "Stateful:ExportsOutputRefVpcPublicSubnet2Subnet691E08A351552740",
+      },
+      "Value": {
+        "Ref": "VpcPublicSubnet2Subnet691E08A3",
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "Cognito59F7F50E": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "AccountRecoverySetting": {
+          "RecoveryMechanisms": [
+            {
+              "Name": "verified_phone_number",
+              "Priority": 1,
+            },
+            {
+              "Name": "verified_email",
+              "Priority": 2,
+            },
+          ],
+        },
+        "AdminCreateUserConfig": {
+          "AllowAdminCreateUserOnly": true,
+        },
+        "EmailVerificationMessage": "The verification code to your new account is {####}",
+        "EmailVerificationSubject": "Verify your new account",
+        "SmsVerificationMessage": "The verification code to your new account is {####}",
+        "VerificationMessageTemplate": {
+          "DefaultEmailOption": "CONFIRM_WITH_CODE",
+          "EmailMessage": "The verification code to your new account is {####}",
+          "EmailSubject": "Verify your new account",
+          "SmsMessage": "The verification code to your new account is {####}",
+        },
+      },
+      "Type": "AWS::Cognito::UserPool",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "CognitoClient85BE2A23": {
+      "Properties": {
+        "AllowedOAuthFlows": [
+          "code",
+        ],
+        "AllowedOAuthFlowsUserPoolClient": true,
+        "AllowedOAuthScopes": [
+          "email",
+          "openid",
+        ],
+        "CallbackURLs": [
+          "https://test.example.com/oauth2/idpresponse",
+          "https://v99999.test.example.com/oauth2/idpresponse",
+        ],
+        "ExplicitAuthFlows": [
+          "ALLOW_USER_PASSWORD_AUTH",
+          "ALLOW_REFRESH_TOKEN_AUTH",
+        ],
+        "GenerateSecret": true,
+        "RefreshTokenValidity": 1,
+        "SupportedIdentityProviders": [
+          "COGNITO",
+        ],
+        "UserPoolId": {
+          "Ref": "Cognito59F7F50E",
+        },
+      },
+      "Type": "AWS::Cognito::UserPoolClient",
+    },
+    "DatabaseB269D8BB": {
+      "DeletionPolicy": "Snapshot",
+      "Properties": {
+        "AllocatedStorage": "100",
+        "CopyTagsToSnapshot": true,
+        "DBInstanceClass": "db.t4g.micro",
+        "DBSubnetGroupName": {
+          "Ref": "DatabaseSubnetGroup7D60F180",
+        },
+        "Engine": "mysql",
+        "EngineVersion": "8.0.28",
+        "MasterUserPassword": {
+          "Fn::Join": [
+            "",
+            [
+              "{{resolve:secretsmanager:",
+              {
+                "Ref": "DatabaseSecret3B817195",
+              },
+              ":SecretString:password::}}",
+            ],
+          ],
+        },
+        "MasterUsername": {
+          "Fn::Join": [
+            "",
+            [
+              "{{resolve:secretsmanager:",
+              {
+                "Ref": "DatabaseSecret3B817195",
+              },
+              ":SecretString:username::}}",
+            ],
+          ],
+        },
+        "PubliclyAccessible": true,
+        "StorageType": "gp2",
+        "VPCSecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "DatabaseSecurityGroup5C91FDCB",
+              "GroupId",
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBInstance",
+      "UpdateReplacePolicy": "Snapshot",
+    },
+    "DatabaseSecret3B817195": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Description": {
+          "Fn::Join": [
+            "",
+            [
+              "Generated by the CDK for stack: ",
+              {
+                "Ref": "AWS::StackName",
+              },
+            ],
+          ],
+        },
+        "GenerateSecretString": {
+          "ExcludeCharacters": " %+~\`#$&*()|[]{}:;<>?!'/@\\"\\\\",
+          "GenerateStringKey": "password",
+          "PasswordLength": 30,
+          "SecretStringTemplate": "{\\"username\\":\\"admin\\"}",
+        },
+      },
+      "Type": "AWS::SecretsManager::Secret",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "DatabaseSecretAttachmentE5D1B020": {
+      "Properties": {
+        "SecretId": {
+          "Ref": "DatabaseSecret3B817195",
+        },
+        "TargetId": {
+          "Ref": "DatabaseB269D8BB",
+        },
+        "TargetType": "AWS::RDS::DBInstance",
+      },
+      "Type": "AWS::SecretsManager::SecretTargetAttachment",
+    },
+    "DatabaseSecurityGroup5C91FDCB": {
+      "Properties": {
+        "GroupDescription": "Security group for Database database",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "DatabaseSubnetGroup7D60F180": {
+      "Properties": {
+        "DBSubnetGroupDescription": "Subnet group for Database database",
+        "SubnetIds": [
+          {
+            "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
+          },
+          {
+            "Ref": "VpcPublicSubnet2Subnet691E08A3",
+          },
+        ],
+      },
+      "Type": "AWS::RDS::DBSubnetGroup",
+    },
+    "Domain66AC69E0": {
+      "Properties": {
+        "Domain": "test-prefix",
+        "UserPoolId": {
+          "Ref": "Cognito59F7F50E",
+        },
+      },
+      "Type": "AWS::Cognito::UserPoolDomain",
+    },
+    "HostedZoneDB99F866": {
+      "Properties": {
+        "Name": "test.example.com.",
+      },
+      "Type": "AWS::Route53::HostedZone",
+    },
+    "Vpc8378EB38": {
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Stateful/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "VpcIGWD7BA715C": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Stateful/Vpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::InternetGateway",
+    },
+    "VpcPublicSubnet1DefaultRoute3DA9E72A": {
+      "DependsOn": [
+        "VpcVPCGWBF912B6E",
+      ],
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "VpcIGWD7BA715C",
+        },
+        "RouteTableId": {
+          "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "VpcPublicSubnet1RouteTable6C95E38E": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Stateful/Vpc/PublicSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "VpcPublicSubnet1RouteTableAssociation97140677": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
+        },
+        "SubnetId": {
+          "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "VpcPublicSubnet1Subnet5C2D37C4": {
+      "Properties": {
+        "AvailabilityZone": "dummy1a",
+        "CidrBlock": "10.0.0.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          {
+            "Key": "Name",
+            "Value": "Stateful/Vpc/PublicSubnet1",
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "VpcPublicSubnet2DefaultRoute97F91067": {
+      "DependsOn": [
+        "VpcVPCGWBF912B6E",
+      ],
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "VpcIGWD7BA715C",
+        },
+        "RouteTableId": {
+          "Ref": "VpcPublicSubnet2RouteTable94F7E489",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "VpcPublicSubnet2RouteTable94F7E489": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Stateful/Vpc/PublicSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "VpcPublicSubnet2RouteTableAssociationDD5762D8": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "VpcPublicSubnet2RouteTable94F7E489",
+        },
+        "SubnetId": {
+          "Ref": "VpcPublicSubnet2Subnet691E08A3",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "VpcPublicSubnet2Subnet691E08A3": {
+      "Properties": {
+        "AvailabilityZone": "dummy1b",
+        "CidrBlock": "10.0.1.0/24",
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public",
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          {
+            "Key": "Name",
+            "Value": "Stateful/Vpc/PublicSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "VpcVPCGWBF912B6E": {
+      "Properties": {
+        "InternetGatewayId": {
+          "Ref": "VpcIGWD7BA715C",
+        },
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`getMain > Snapshotが一致する 2`] = `
+{
+  "Outputs": {
+    "AlbServiceLoadBalancerDNSBD7C2D38": {
+      "Value": {
+        "Fn::GetAtt": [
+          "AlbServiceLBC8810931",
+          "DNSName",
+        ],
+      },
+    },
+    "AlbServiceServiceURL84868AA1": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "AlbServiceDNS39571B45",
+            },
+          ],
+        ],
+      },
+    },
+    "ExportsOutputFnGetAttAlbServiceLBC8810931CanonicalHostedZoneIDB38EDA93": {
+      "Export": {
+        "Name": "StatelessV99999:ExportsOutputFnGetAttAlbServiceLBC8810931CanonicalHostedZoneIDB38EDA93",
+      },
+      "Value": {
+        "Fn::GetAtt": [
+          "AlbServiceLBC8810931",
+          "CanonicalHostedZoneID",
+        ],
+      },
+    },
+    "ExportsOutputFnGetAttAlbServiceLBC8810931DNSName2A8A87F0": {
+      "Export": {
+        "Name": "StatelessV99999:ExportsOutputFnGetAttAlbServiceLBC8810931DNSName2A8A87F0",
+      },
+      "Value": {
+        "Fn::GetAtt": [
+          "AlbServiceLBC8810931",
+          "DNSName",
+        ],
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "AWS679f53fac002430cb0da5b7982bd22872D164C4C": {
+      "DependsOn": [
+        "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleDefaultPolicyD28E1A5E",
+        "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-000000000000-ap-northeast-1",
+          "S3Key": "6dbd112fe448437b3438da4382c72fccbb7d2ee1543db222620d7447fffebc50.zip",
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 120,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "AWS679f53fac002430cb0da5b7982bd2287LogRetentionCE72797A": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 7,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleDefaultPolicyD28E1A5E": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "iam:PassRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "MigrationTaskDefTaskRoleDC9A6872",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": "iam:PassRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "MigrationTaskDefExecutionRole9787EA7A",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleDefaultPolicyD28E1A5E",
+        "Roles": [
+          {
+            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "AlbService0F7E002B": {
+      "DependsOn": [
+        "AlbServiceLBPublicListenerECSGroup0109A814",
+        "AlbServiceLBPublicListenerBA3B1C65",
+      ],
+      "Properties": {
+        "Cluster": {
+          "Ref": "EcsDefaultClusterMnL3mNNYNVpc18E0451A",
+        },
+        "DeploymentConfiguration": {
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 50,
+        },
+        "DesiredCount": 1,
+        "EnableECSManagedTags": false,
+        "HealthCheckGracePeriodSeconds": 60,
+        "LaunchType": "FARGATE",
+        "LoadBalancers": [
+          {
+            "ContainerName": "web",
+            "ContainerPort": 80,
+            "TargetGroupArn": {
+              "Ref": "AlbServiceLBPublicListenerECSGroup0109A814",
+            },
+          },
+        ],
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "ENABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "AlbServiceSecurityGroup8EA70F84",
+                  "GroupId",
+                ],
+              },
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "Stateful:ExportsOutputRefVpcPublicSubnet1Subnet5C2D37C4FFA2B456",
+              },
+              {
+                "Fn::ImportValue": "Stateful:ExportsOutputRefVpcPublicSubnet2Subnet691E08A351552740",
+              },
+            ],
+          },
+        },
+        "TaskDefinition": {
+          "Ref": "AlbServiceTaskDefC7A0BB08",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "AlbServiceDNS39571B45": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::Join": [
+              "",
+              [
+                "dualstack.",
+                {
+                  "Fn::GetAtt": [
+                    "AlbServiceLBC8810931",
+                    "DNSName",
+                  ],
+                },
+              ],
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::GetAtt": [
+              "AlbServiceLBC8810931",
+              "CanonicalHostedZoneID",
+            ],
+          },
+        },
+        "HostedZoneId": {
+          "Fn::ImportValue": "Stateful:ExportsOutputRefHostedZoneDB99F8662BBAE844",
+        },
+        "Name": "v99999.test.example.com.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "AlbServiceLBC8810931": {
+      "Properties": {
+        "LoadBalancerAttributes": [
+          {
+            "Key": "deletion_protection.enabled",
+            "Value": "false",
+          },
+        ],
+        "Scheme": "internet-facing",
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "AlbServiceLBSecurityGroup8252B36C",
+              "GroupId",
+            ],
+          },
+        ],
+        "Subnets": [
+          {
+            "Fn::ImportValue": "Stateful:ExportsOutputRefVpcPublicSubnet1Subnet5C2D37C4FFA2B456",
+          },
+          {
+            "Fn::ImportValue": "Stateful:ExportsOutputRefVpcPublicSubnet2Subnet691E08A351552740",
+          },
+        ],
+        "Type": "application",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+    },
+    "AlbServiceLBPublicListenerBA3B1C65": {
+      "Properties": {
+        "Certificates": [
+          {
+            "CertificateArn": {
+              "Fn::GetAtt": [
+                "CertificateCertificateRequestorResource2890C6B7",
+                "Arn",
+              ],
+            },
+          },
+        ],
+        "DefaultActions": [
+          {
+            "AuthenticateCognitoConfig": {
+              "UserPoolArn": {
+                "Fn::ImportValue": "Stateful:ExportsOutputFnGetAttCognito59F7F50EArn5F3E599F",
+              },
+              "UserPoolClientId": {
+                "Fn::ImportValue": "Stateful:ExportsOutputRefCognitoClient85BE2A23D3EF87D3",
+              },
+              "UserPoolDomain": {
+                "Fn::ImportValue": "Stateful:ExportsOutputRefDomain66AC69E084F15077",
+              },
+            },
+            "Order": 1,
+            "Type": "authenticate-cognito",
+          },
+          {
+            "Order": 2,
+            "TargetGroupArn": {
+              "Ref": "AlbServiceLBPublicListenerECSGroup0109A814",
+            },
+            "Type": "forward",
+          },
+        ],
+        "LoadBalancerArn": {
+          "Ref": "AlbServiceLBC8810931",
+        },
+        "Port": 443,
+        "Protocol": "HTTPS",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+    },
+    "AlbServiceLBPublicListenerECSGroup0109A814": {
+      "Properties": {
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetGroupAttributes": [
+          {
+            "Key": "stickiness.enabled",
+            "Value": "false",
+          },
+        ],
+        "TargetType": "ip",
+        "VpcId": {
+          "Fn::ImportValue": "Stateful:ExportsOutputRefVpc8378EB38272D6E3A",
+        },
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+    },
+    "AlbServiceLBPublicRedirectListenerEAC7F806": {
+      "Properties": {
+        "DefaultActions": [
+          {
+            "RedirectConfig": {
+              "Port": "443",
+              "Protocol": "HTTPS",
+              "StatusCode": "HTTP_301",
+            },
+            "Type": "redirect",
+          },
+        ],
+        "LoadBalancerArn": {
+          "Ref": "AlbServiceLBC8810931",
+        },
+        "Port": 80,
+        "Protocol": "HTTP",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+    },
+    "AlbServiceLBSecurityGroup8252B36C": {
+      "Properties": {
+        "GroupDescription": "Automatically created Security Group for ELB StatelessV99999AlbServiceLBDC0CFE74",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:443",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 443",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 80",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80,
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "Stateful:ExportsOutputRefVpc8378EB38272D6E3A",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "AlbServiceLBSecurityGrouptoStatelessV99999AlbServiceSecurityGroup7517161A805A1421E8": {
+      "Properties": {
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": {
+          "Fn::GetAtt": [
+            "AlbServiceSecurityGroup8EA70F84",
+            "GroupId",
+          ],
+        },
+        "FromPort": 80,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "AlbServiceLBSecurityGroup8252B36C",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "ToPort": 80,
+      },
+      "Type": "AWS::EC2::SecurityGroupEgress",
+    },
+    "AlbServiceSecurityGroup8EA70F84": {
+      "Properties": {
+        "GroupDescription": "StatelessV99999/AlbService/Service/SecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "Stateful:ExportsOutputRefVpc8378EB38272D6E3A",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "AlbServiceSecurityGroupStatefulDatabaseSecurityGroup0E6C6A81IndirectPortto6BB34A74": {
+      "Properties": {
+        "Description": "from StatelessV99999AlbServiceSecurityGroup7517161A:{IndirectPort}",
+        "FromPort": {
+          "Fn::ImportValue": "Stateful:ExportsOutputFnGetAttDatabaseB269D8BBEndpointPort3ACB3F51",
+        },
+        "GroupId": {
+          "Fn::ImportValue": "Stateful:ExportsOutputFnGetAttDatabaseSecurityGroup5C91FDCBGroupId8DCC9244",
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "AlbServiceSecurityGroup8EA70F84",
+            "GroupId",
+          ],
+        },
+        "ToPort": {
+          "Fn::ImportValue": "Stateful:ExportsOutputFnGetAttDatabaseB269D8BBEndpointPort3ACB3F51",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "AlbServiceSecurityGroupfromStatelessV99999AlbServiceLBSecurityGroup52794E12809EFA4F30": {
+      "Properties": {
+        "Description": "Load balancer to target",
+        "FromPort": 80,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "AlbServiceSecurityGroup8EA70F84",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "AlbServiceLBSecurityGroup8252B36C",
+            "GroupId",
+          ],
+        },
+        "ToPort": 80,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "AlbServiceTaskCountTarget330BC25A": {
+      "Properties": {
+        "MaxCapacity": 1,
+        "MinCapacity": 1,
+        "ResourceId": {
+          "Fn::Join": [
+            "",
+            [
+              "service/",
+              {
+                "Ref": "EcsDefaultClusterMnL3mNNYNVpc18E0451A",
+              },
+              "/",
+              {
+                "Fn::GetAtt": [
+                  "AlbService0F7E002B",
+                  "Name",
+                ],
+              },
+            ],
+          ],
+        },
+        "RoleARN": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":iam::000000000000:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService",
+            ],
+          ],
+        },
+        "ScalableDimension": "ecs:service:DesiredCount",
+        "ServiceNamespace": "ecs",
+      },
+      "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+    },
+    "AlbServiceTaskDefC7A0BB08": {
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "Logging__Console__DisableColors",
+                "Value": "true",
+              },
+              {
+                "Name": "Logging__LogLevel__Microsoft.AspNetCore.HttpLogging.HttpLoggingMiddleware",
+                "Value": "Information",
+              },
+            ],
+            "Essential": true,
+            "Image": {
+              "Fn::Sub": "000000000000.dkr.ecr.ap-northeast-1.\${AWS::URLSuffix}/cdk-hnb659fds-container-assets-000000000000-ap-northeast-1:500d1c0de354e8b272761804d360edab2b792a4bd46119f341972fef3fcd6d02",
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "AlbServiceTaskDefwebLogGroup274651F3",
+                },
+                "awslogs-region": "ap-northeast-1",
+                "awslogs-stream-prefix": "AlbService",
+              },
+            },
+            "Name": "web",
+            "PortMappings": [
+              {
+                "ContainerPort": 80,
+                "Protocol": "tcp",
+              },
+            ],
+            "Secrets": [
+              {
+                "Name": "DbSecret",
+                "ValueFrom": {
+                  "Fn::ImportValue": "Stateful:ExportsOutputRefDatabaseSecretAttachmentE5D1B020633AEB73",
+                },
+              },
+            ],
+          },
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "AlbServiceTaskDefExecutionRole7E5AD126",
+            "Arn",
+          ],
+        },
+        "Family": "StatelessV99999AlbServiceTaskDef8CD93AEA",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE",
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "AlbServiceTaskDefTaskRoleF724337C",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "AlbServiceTaskDefExecutionRole7E5AD126": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "AlbServiceTaskDefExecutionRoleDefaultPolicyC867626A": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:ap-northeast-1:000000000000:repository/cdk-hnb659fds-container-assets-000000000000-ap-northeast-1",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "AlbServiceTaskDefwebLogGroup274651F3",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::ImportValue": "Stateful:ExportsOutputRefDatabaseSecretAttachmentE5D1B020633AEB73",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "AlbServiceTaskDefExecutionRoleDefaultPolicyC867626A",
+        "Roles": [
+          {
+            "Ref": "AlbServiceTaskDefExecutionRole7E5AD126",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "AlbServiceTaskDefTaskRoleF724337C": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "AlbServiceTaskDefwebLogGroup274651F3": {
+      "DeletionPolicy": "Retain",
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "CertificateCertificateRequestorFunction5E845413": {
+      "DependsOn": [
+        "CertificateCertificateRequestorFunctionServiceRoleDefaultPolicy3C8845BC",
+        "CertificateCertificateRequestorFunctionServiceRoleC04C13DA",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-000000000000-ap-northeast-1",
+          "S3Key": "8ddf29ab619460567d3cda58de2ff1bf0f6e95d8822ff630ec58a4d52ed1fa67.zip",
+        },
+        "Handler": "index.certificateRequestHandler",
+        "Role": {
+          "Fn::GetAtt": [
+            "CertificateCertificateRequestorFunctionServiceRoleC04C13DA",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CertificateCertificateRequestorFunctionServiceRoleC04C13DA": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "CertificateCertificateRequestorFunctionServiceRoleDefaultPolicy3C8845BC": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "acm:RequestCertificate",
+                "acm:DescribeCertificate",
+                "acm:DeleteCertificate",
+                "acm:AddTagsToCertificate",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "route53:GetChange",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "route53:changeResourceRecordSets",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":route53:::hostedzone/",
+                    {
+                      "Fn::ImportValue": "Stateful:ExportsOutputRefHostedZoneDB99F8662BBAE844",
+                    },
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "CertificateCertificateRequestorFunctionServiceRoleDefaultPolicy3C8845BC",
+        "Roles": [
+          {
+            "Ref": "CertificateCertificateRequestorFunctionServiceRoleC04C13DA",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "CertificateCertificateRequestorResource2890C6B7": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "CleanupRecords": "true",
+        "DomainName": "test.example.com",
+        "HostedZoneId": {
+          "Fn::ImportValue": "Stateful:ExportsOutputRefHostedZoneDB99F8662BBAE844",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CertificateCertificateRequestorFunction5E845413",
+            "Arn",
+          ],
+        },
+        "SubjectAlternativeNames": [
+          "*.test.example.com",
+        ],
+      },
+      "Type": "AWS::CloudFormation::CustomResource",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "EcsDefaultClusterMnL3mNNYNVpc18E0451A": {
+      "Type": "AWS::ECS::Cluster",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+      "DependsOn": [
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-000000000000-ap-northeast-1",
+          "S3Key": "ae967c277459e8936ac565a71d34ea5dcff7b98e556466c36a4d6da023a2d9aa.zip",
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:PutRetentionPolicy",
+                "logs:DeleteRetentionPolicy",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "Roles": [
+          {
+            "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MigrationTaskDefDA418933": {
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "Logging__Console__DisableColors",
+                "Value": "true",
+              },
+            ],
+            "Essential": true,
+            "Image": {
+              "Fn::Sub": "000000000000.dkr.ecr.ap-northeast-1.\${AWS::URLSuffix}/cdk-hnb659fds-container-assets-000000000000-ap-northeast-1:9f2071612d3da49a86b1f04606693968a330f5fbf636c7eed7295361973c723a",
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "MigrationTaskDefMigrationContainerLogGroupA7AB11E9",
+                },
+                "awslogs-region": "ap-northeast-1",
+                "awslogs-stream-prefix": "MigrationTaskDef",
+              },
+            },
+            "Name": "MigrationContainer",
+            "Secrets": [
+              {
+                "Name": "DbSecret",
+                "ValueFrom": {
+                  "Fn::ImportValue": "Stateful:ExportsOutputRefDatabaseSecretAttachmentE5D1B020633AEB73",
+                },
+              },
+            ],
+          },
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "MigrationTaskDefExecutionRole9787EA7A",
+            "Arn",
+          ],
+        },
+        "Family": "StatelessV99999MigrationTaskDefC9A7B2D1",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE",
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "MigrationTaskDefTaskRoleDC9A6872",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "MigrationTaskDefExecutionRole9787EA7A": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "MigrationTaskDefExecutionRoleDefaultPolicy3A04BF94": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:ap-northeast-1:000000000000:repository/cdk-hnb659fds-container-assets-000000000000-ap-northeast-1",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "MigrationTaskDefMigrationContainerLogGroupA7AB11E9",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::ImportValue": "Stateful:ExportsOutputRefDatabaseSecretAttachmentE5D1B020633AEB73",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "MigrationTaskDefExecutionRoleDefaultPolicy3A04BF94",
+        "Roles": [
+          {
+            "Ref": "MigrationTaskDefExecutionRole9787EA7A",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "MigrationTaskDefMigrationContainerLogGroupA7AB11E9": {
+      "DeletionPolicy": "Retain",
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "MigrationTaskDefTaskRoleDC9A6872": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "RunTaskOnce0CFB7D37": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "RunTaskOnceCustomResourcePolicy259A7BA6",
+      ],
+      "Properties": {
+        "Create": {
+          "Fn::Join": [
+            "",
+            [
+              "{\\"service\\":\\"ECS\\",\\"action\\":\\"runTask\\",\\"parameters\\":{\\"cluster\\":\\"",
+              {
+                "Ref": "EcsDefaultClusterMnL3mNNYNVpc18E0451A",
+              },
+              "\\",\\"taskDefinition\\":\\"",
+              {
+                "Ref": "MigrationTaskDefDA418933",
+              },
+              "\\",\\"launchType\\":\\"FARGATE\\",\\"networkConfiguration\\":{\\"awsvpcConfiguration\\":{\\"assignPublicIp\\":\\"ENABLED\\",\\"subnets\\":[\\"",
+              {
+                "Fn::ImportValue": "Stateful:ExportsOutputRefVpcPublicSubnet1Subnet5C2D37C4FFA2B456",
+              },
+              "\\",\\"",
+              {
+                "Fn::ImportValue": "Stateful:ExportsOutputRefVpcPublicSubnet2Subnet691E08A351552740",
+              },
+              "\\"],\\"securityGroups\\":[\\"",
+              {
+                "Fn::GetAtt": [
+                  "RunTaskOnceSecurityGroupBE0A10E2",
+                  "GroupId",
+                ],
+              },
+              "\\"]}}},\\"physicalResourceId\\":{\\"id\\":\\"",
+              {
+                "Ref": "MigrationTaskDefDA418933",
+              },
+              "\\"}}",
+            ],
+          ],
+        },
+        "InstallLatestAwsSdk": true,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+            "Arn",
+          ],
+        },
+        "Update": {
+          "Fn::Join": [
+            "",
+            [
+              "{\\"service\\":\\"ECS\\",\\"action\\":\\"runTask\\",\\"parameters\\":{\\"cluster\\":\\"",
+              {
+                "Ref": "EcsDefaultClusterMnL3mNNYNVpc18E0451A",
+              },
+              "\\",\\"taskDefinition\\":\\"",
+              {
+                "Ref": "MigrationTaskDefDA418933",
+              },
+              "\\",\\"launchType\\":\\"FARGATE\\",\\"networkConfiguration\\":{\\"awsvpcConfiguration\\":{\\"assignPublicIp\\":\\"ENABLED\\",\\"subnets\\":[\\"",
+              {
+                "Fn::ImportValue": "Stateful:ExportsOutputRefVpcPublicSubnet1Subnet5C2D37C4FFA2B456",
+              },
+              "\\",\\"",
+              {
+                "Fn::ImportValue": "Stateful:ExportsOutputRefVpcPublicSubnet2Subnet691E08A351552740",
+              },
+              "\\"],\\"securityGroups\\":[\\"",
+              {
+                "Fn::GetAtt": [
+                  "RunTaskOnceSecurityGroupBE0A10E2",
+                  "GroupId",
+                ],
+              },
+              "\\"]}}},\\"physicalResourceId\\":{\\"id\\":\\"",
+              {
+                "Ref": "MigrationTaskDefDA418933",
+              },
+              "\\"}}",
+            ],
+          ],
+        },
+      },
+      "Type": "Custom::RunTask",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "RunTaskOnceCustomResourcePolicy259A7BA6": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ecs:RunTask",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "MigrationTaskDefDA418933",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "RunTaskOnceCustomResourcePolicy259A7BA6",
+        "Roles": [
+          {
+            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "RunTaskOnceSecurityGroupBE0A10E2": {
+      "Properties": {
+        "GroupDescription": "StatelessV99999/RunTaskOnceSecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "Stateful:ExportsOutputRefVpc8378EB38272D6E3A",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "RunTaskOnceSecurityGroupStatefulDatabaseSecurityGroup0E6C6A81IndirectPortto730166DA": {
+      "Properties": {
+        "Description": "from StatelessV99999RunTaskOnceSecurityGroup0D487FFB:{IndirectPort}",
+        "FromPort": {
+          "Fn::ImportValue": "Stateful:ExportsOutputFnGetAttDatabaseB269D8BBEndpointPort3ACB3F51",
+        },
+        "GroupId": {
+          "Fn::ImportValue": "Stateful:ExportsOutputFnGetAttDatabaseSecurityGroup5C91FDCBGroupId8DCC9244",
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "RunTaskOnceSecurityGroupBE0A10E2",
+            "GroupId",
+          ],
+        },
+        "ToPort": {
+          "Fn::ImportValue": "Stateful:ExportsOutputFnGetAttDatabaseB269D8BBEndpointPort3ACB3F51",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`getMain > Snapshotが一致する 3`] = `
+{
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ARecordE7B57761": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::Join": [
+              "",
+              [
+                "dualstack.",
+                {
+                  "Fn::ImportValue": "StatelessV99999:ExportsOutputFnGetAttAlbServiceLBC8810931DNSName2A8A87F0",
+                },
+              ],
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::ImportValue": "StatelessV99999:ExportsOutputFnGetAttAlbServiceLBC8810931CanonicalHostedZoneIDB38EDA93",
+          },
+        },
+        "HostedZoneId": {
+          "Fn::ImportValue": "Stateful:ExportsOutputRefHostedZoneDB99F8662BBAE844",
+        },
+        "Name": "test.example.com.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

@@ -1,6 +1,6 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
-import getRoute53 from './getRoute53';
+import { getRoute53 } from '.';
 
 describe('getRoute53', () => {
     it('HostedZoneが作成できる', async () => {

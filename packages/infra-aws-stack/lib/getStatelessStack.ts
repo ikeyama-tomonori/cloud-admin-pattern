@@ -7,7 +7,10 @@ import {
 } from 'aws-cdk-lib/aws-cognito';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { ICluster, TaskDefinition } from 'aws-cdk-lib/aws-ecs';
-import { ApplicationLoadBalancedFargateService } from 'aws-cdk-lib/aws-ecs-patterns';
+import {
+    ApplicationListener,
+    ApplicationLoadBalancer,
+} from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import {
     DatabaseCluster,
     DatabaseInstance,
@@ -37,17 +40,21 @@ interface Config {
             userPoolClient: UserPoolClient;
             userPoolDomain: UserPoolDomain;
         };
-    }) => Promise<ApplicationLoadBalancedFargateService>;
+    }) => Promise<{
+        cluster: ICluster;
+        listener: ApplicationListener;
+        loadBalancer: ApplicationLoadBalancer;
+    }>;
     createRdbMigrationTask: (params: {
         scope: Construct;
         db: DatabaseCluster | DatabaseInstance | ServerlessCluster;
-    }) => Promise<TaskDefinition>;
+    }) => Promise<{ taskDefinition: TaskDefinition }>;
     createRunTaskOnce: (params: {
         scope: Construct;
-        task: TaskDefinition;
+        taskDefinition: TaskDefinition;
         cluster: ICluster;
         db: DatabaseCluster | DatabaseInstance | ServerlessCluster;
-    }) => Promise<unknown>;
+    }) => Promise<void>;
 }
 
 interface Params {
@@ -117,15 +124,26 @@ export default ({
             )
             // Migration用Task定義の作成
             .then(async ({ stack, db, ...rest }) => {
-                const task = await createRdbMigrationTask({ scope: stack, db });
-                return { stack, task, db, ...rest };
-            })
-            .then(async ({ stack, cluster, task, db, loadBalancer }) => {
-                await createRunTaskOnce({
+                const { taskDefinition } = await createRdbMigrationTask({
                     scope: stack,
-                    cluster,
-                    task,
                     db,
                 });
-                return { loadBalancer };
-            });
+                return { stack, taskDefinition, db, ...rest };
+            })
+            .then(
+                async ({
+                    stack,
+                    cluster,
+                    taskDefinition,
+                    db,
+                    loadBalancer,
+                }) => {
+                    await createRunTaskOnce({
+                        scope: stack,
+                        cluster,
+                        taskDefinition,
+                        db,
+                    });
+                    return { stack, loadBalancer };
+                }
+            );

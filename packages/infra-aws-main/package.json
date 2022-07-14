@@ -12,6 +12,7 @@
     "devDependencies": {
         "@types/node": "18.0.3",
         "aws-cdk": "2.31.0",
+        "aws-cdk-lib": "2.31.0",
         "ts-node": "^10.8.2",
         "tsconfig-paths": "^4.0.0"
     }

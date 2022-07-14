@@ -2,7 +2,7 @@ import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { DatabaseInstance, DatabaseInstanceEngine } from 'aws-cdk-lib/aws-rds';
-import getRdbMigrationTask from './getRdbMigrationTask';
+import { getRdbMigrationTask } from '.';
 
 describe('getRdbMigrationTask', () => {
     it('タスク定義が作成できる', async () => {

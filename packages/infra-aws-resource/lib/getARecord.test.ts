@@ -3,7 +3,7 @@ import { Template } from 'aws-cdk-lib/assertions';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { ApplicationLoadBalancer } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
-import getARecord from './getARecord';
+import { getARecord } from '.';
 
 describe('getARecord', () => {
     it('A Recordが作成できる', async () => {

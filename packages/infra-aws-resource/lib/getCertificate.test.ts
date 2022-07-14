@@ -1,7 +1,7 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
-import getCertificate from './getCertificate';
+import { getCertificate } from '.';
 
 describe('getCertificate', () => {
     it('Certificateが作成できる', async () => {
@@ -20,8 +20,6 @@ describe('getCertificate', () => {
         await createCertificate({ scope: stack, hostedZone });
 
         const template = Template.fromStack(stack);
-
-        console.log(template.toJSON());
 
         template.hasResourceProperties('AWS::CloudFormation::CustomResource', {
             DomainName: 'test.example.com',

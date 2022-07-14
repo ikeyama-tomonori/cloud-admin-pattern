@@ -23,7 +23,9 @@ interface Config {
     createRds: (params: { scope: Construct; vpc: Vpc }) => Promise<{
         db: DatabaseCluster | DatabaseInstance | ServerlessCluster;
     }>;
-    createRoute53: (params: { scope: Construct }) => Promise<HostedZone>;
+    createRoute53: (params: {
+        scope: Construct;
+    }) => Promise<{ hostedZone: HostedZone }>;
     createCognito: (params: { scope: Construct }) => Promise<{
         userPool: UserPool;
         userPoolClient: UserPoolClient;
@@ -52,7 +54,7 @@ export default ({
             })
             // Route53 HostedZoneの作成
             .then(async ({ stack }) => {
-                const hostedZone = await createRoute53({ scope: stack });
+                const { hostedZone } = await createRoute53({ scope: stack });
                 return { stack, hostedZone };
             })
             // VPCの作成

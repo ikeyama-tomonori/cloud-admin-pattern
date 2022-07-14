@@ -1,9 +1,0 @@
-{
-    "name": "@infra-aws/app",
-    "version": "0.0.0",
-    "private": true,
-    "dependencies": {
-        "aws-cdk-lib": "2.31.0",
-        "constructs": "^10.1.43"
-    }
-}

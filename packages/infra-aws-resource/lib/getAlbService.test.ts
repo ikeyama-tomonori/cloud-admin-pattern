@@ -9,7 +9,7 @@ import {
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { DatabaseInstance, DatabaseInstanceEngine } from 'aws-cdk-lib/aws-rds';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
-import getAlbService from './getAlbService';
+import { getAlbService } from '.';
 
 describe('getAlbService', () => {
     it('ALB Serviceが作成できる', async () => {

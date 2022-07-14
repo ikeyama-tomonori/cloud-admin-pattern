@@ -14,9 +14,8 @@ export default ({ name, zoneName }: Config) =>
     (params: Params) =>
         Promise.resolve(params)
             // HostedZoneの作成
-            .then(
-                ({ scope }) =>
-                    new HostedZone(scope, name, {
-                        zoneName,
-                    })
-            );
+            .then(({ scope }) => ({
+                hostedZone: new HostedZone(scope, name, {
+                    zoneName,
+                }),
+            }));
