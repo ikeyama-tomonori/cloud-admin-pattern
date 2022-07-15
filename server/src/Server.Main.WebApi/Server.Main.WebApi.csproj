@@ -25,5 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Server.Repository.AppDb\Server.Repository.AppDb.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <InternalsVisibleTo Include="Server.Main.WebApi.Test" />
+  </ItemGroup>
 </Project>
