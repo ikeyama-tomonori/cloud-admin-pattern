@@ -4,72 +4,72 @@ import user from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import {
     AdminContext,
-    CoreAdminRoutes,
     CreateParams,
     CreateResult,
     DataProvider,
     Resource,
     testDataProvider,
 } from 'react-admin';
+import { Route, Routes } from 'react-router-dom';
 import getOrganizationCreate from './getOrganizationCreate';
 
-describe('<OrganizationCreate />', () => {
-    it('新規作成ができる', async () => {
-        const dataProvider = testDataProvider();
-        const history = createMemoryHistory();
+test('新規作成ができる', async () => {
+    const dataProvider = testDataProvider();
+    const history = createMemoryHistory();
 
-        render(
-            <AdminContext dataProvider={dataProvider} history={history}>
-                <CoreAdminRoutes
-                    layout={({ children }) => <>{children}</>}
-                    catchAll={() => <></>}
-                    loading={() => <></>}
-                >
-                    <Resource
-                        name="organizations"
-                        create={getOrganizationCreate()}
-                    />
-                </CoreAdminRoutes>
-            </AdminContext>
-        );
+    render(
+        <AdminContext dataProvider={dataProvider} history={history}>
+            <Routes>
+                <Route path="/" element={<div />} />
+                <Route
+                    path="organizations/*"
+                    element={
+                        <Resource
+                            name="organizations"
+                            create={getOrganizationCreate()}
+                        />
+                    }
+                ></Route>
+            </Routes>
+        </AdminContext>
+    );
 
-        act(() => {
-            history.push('/organizations/create');
-        });
+    act(() => {
+        history.push('/organizations/create');
+    });
 
-        // ユーザー入力
-        user.type(
-            screen.getByLabelText('resources.organizations.fields.name'),
-            '##name##'
-        );
+    // ユーザー入力
+    await user.type(
+        screen.getByLabelText('resources.organizations.fields.name'),
+        '##name##'
+    );
 
-        expect(await screen.findByDisplayValue('##name##'));
+    await screen.findByDisplayValue('##name##');
 
-        // 保存ボタンクリック
-        dataProvider.create = vi
-            .fn<
-                [string, CreateParams<Organization>],
-                Promise<CreateResult<Organization>>
-            >()
-            .mockReturnValueOnce(
-                Promise.resolve({
-                    data: {
-                        id: 1,
-                        name: '##name##',
-                    },
-                })
-            ) as DataProvider['create'];
-
-        user.click(
-            screen.getByRole('button', {
-                name: 'ra.action.save',
+    // 保存ボタンクリック
+    dataProvider.create = vi
+        .fn<
+            [string, CreateParams<Organization>],
+            Promise<CreateResult<Organization>>
+        >()
+        .mockReturnValueOnce(
+            Promise.resolve({
+                data: {
+                    id: 1,
+                    name: '##name##',
+                },
             })
-        );
+        ) as DataProvider['create'];
 
-        await waitFor(() => {
-            expect(dataProvider.create).toHaveBeenCalledWith<
-                [string, CreateParams<Omit<Organization, 'id'>>]
-            >('organizations', { data: { name: '##name##' } });
-        });
+    await user.click(
+        screen.getByRole('button', {
+            name: 'ra.action.save',
+        })
+    );
+
+    await waitFor(() => {
+        expect(dataProvider.create).toHaveBeenCalledWith<
+            [string, CreateParams<Omit<Organization, 'id'>>]
+        >('organizations', { data: { name: '##name##' } });
     });
 });
