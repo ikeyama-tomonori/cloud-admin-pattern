@@ -1,3 +1,3 @@
-import getAdmin from './getAdmin';
+import getAdmin from "./getAdmin";
 
 export { getAdmin };

@@ -1,9 +1,8 @@
 {
     "recommendations": [
         "ms-dotnettools.csharp",
+        "rome.rome",
         "sonarsource.sonarlint-vscode",
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
         "zixuanchen.vitest-explorer"
     ]
 }

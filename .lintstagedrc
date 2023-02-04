@@ -1,7 +1,7 @@
 {
     "*.{tsx,ts}": [
-        "eslint --fix",
-        "prettier --write"
+        "rome format --write",
+        "rome check --apply-suggested"
     ],
     "*.cs": [
         "dotnet format style --include",

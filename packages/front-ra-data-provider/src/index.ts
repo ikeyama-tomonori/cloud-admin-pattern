@@ -1,3 +1,3 @@
-import getDataProvider from './getDataProvider';
+import getDataProvider from "./getDataProvider";
 
 export { getDataProvider };
