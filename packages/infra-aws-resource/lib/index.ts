@@ -11,15 +11,15 @@ import getRunTaskOnce from "./getRunTaskOnce";
 import getVpc from "./getVpc";
 
 export {
-	getAlbService,
-	getARecord,
-	getCertificate,
-	getCognito,
-	getRdbMigrationTask,
-	getRdsAurora,
-	getRdsMysql,
-	getRdsServerless,
-	getRoute53,
-	getRunTaskOnce,
-	getVpc,
+  getAlbService,
+  getARecord,
+  getCertificate,
+  getCognito,
+  getRdbMigrationTask,
+  getRdsAurora,
+  getRdsMysql,
+  getRdsServerless,
+  getRoute53,
+  getRunTaskOnce,
+  getVpc,
 };

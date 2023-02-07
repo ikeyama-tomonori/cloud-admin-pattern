@@ -3,25 +3,25 @@ import { DatabaseClusterEngine, ServerlessCluster } from "aws-cdk-lib/aws-rds";
 import { Construct } from "constructs";
 
 interface Config {
-	name: string;
+  name: string;
 }
 
 interface Params {
-	scope: Construct;
-	vpc: Vpc;
+  scope: Construct;
+  vpc: Vpc;
 }
 
 export default ({ name }: Config) =>
-	(params: Params) =>
-		Promise.resolve(params)
-			// RDS 作成
-			.then(({ scope, vpc }) => ({
-				db: new ServerlessCluster(scope, name, {
-					enableDataApi: true,
-					engine: DatabaseClusterEngine.AURORA_MYSQL,
-					vpc,
-					vpcSubnets: {
-						subnetType: SubnetType.PUBLIC,
-					},
-				}),
-			}));
+  (params: Params) =>
+    Promise.resolve(params)
+      // RDS 作成
+      .then(({ scope, vpc }) => ({
+        db: new ServerlessCluster(scope, name, {
+          enableDataApi: true,
+          engine: DatabaseClusterEngine.AURORA_MYSQL,
+          vpc,
+          vpcSubnets: {
+            subnetType: SubnetType.PUBLIC,
+          },
+        }),
+      }));

@@ -12,17 +12,17 @@ if (!region) throw new Error("CDK_DEFAULT_REGION is not set");
 if (!domianName) throw new Error("CDK_APP_DOMAIN_NAME is not set");
 if (!version) throw new Error("CDK_APP_VERSION is not set");
 if (!userPoolDomainPrefix)
-	throw new Error("CDK_APP_USER_POOL_DOMAIN_PREFIX is not set");
+  throw new Error("CDK_APP_USER_POOL_DOMAIN_PREFIX is not set");
 
 const config = {
-	env: {
-		account,
-		region,
-	},
-	distDir: "../../dist",
-	domianName,
-	version,
-	userPoolDomainPrefix: "abjbgatip7y7",
+  env: {
+    account,
+    region,
+  },
+  distDir: "../../dist",
+  domianName,
+  version,
+  userPoolDomainPrefix: "abjbgatip7y7",
 };
 
 const main = getMain(config);

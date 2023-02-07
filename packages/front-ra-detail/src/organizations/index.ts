@@ -4,8 +4,8 @@ import getOrganizationList from "./getOrganizationList";
 import getOrganizationShow from "./getOrganizationShow";
 
 export {
-	getOrganizationCreate,
-	getOrganizationEdit,
-	getOrganizationList,
-	getOrganizationShow,
+  getOrganizationCreate,
+  getOrganizationEdit,
+  getOrganizationList,
+  getOrganizationShow,
 };
