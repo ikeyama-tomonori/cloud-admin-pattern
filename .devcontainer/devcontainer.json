@@ -1,33 +1,32 @@
 {
-  "name": "Docker in Docker",
-  "image": "mcr.microsoft.com/devcontainers/base:buster",
-  "features": {
-    "ghcr.io/devcontainers/features/common-utils:1": {
-      "installZsh": "true",
-      "upgradePackages": "false",
-      "uid": "1000",
-      "gid": "1000",
-      "installOhMyZsh": "true",
-      "nonFreePackages": "true"
+    "name": "Docker in Docker",
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:1": {
+            "installZsh": "true",
+            "upgradePackages": "false",
+            "uid": "1000",
+            "gid": "1000",
+            "installOhMyZsh": "true",
+            "nonFreePackages": "true"
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker:1": {},
+        "ghcr.io/devcontainers/features/dotnet:1": {},
+        "ghcr.io/devcontainers/features/node:1": {}
     },
-    "ghcr.io/devcontainers/features/docker-in-docker:1": {},
-    "ghcr.io/devcontainers/features/dotnet:1": {},
-    "ghcr.io/devcontainers/features/node:1": {}
-  },
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-dotnettools.csharp",
-        "csharpier.csharpier-vscode",
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-        "SonarSource.sonarlint-vscode",
-        "ZixuanChen.vitest-explorer"
-      ]
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-dotnettools.csharp",
+                "csharpier.csharpier-vscode",
+                "SonarSource.sonarlint-vscode",
+                "ZixuanChen.vitest-explorer",
+                "rome.rome"
+            ]
+        }
+    },
+    "onCreateCommand": {
+        "dotnet": "dotnet restore",
+        "yarn": "yarn"
     }
-  },
-  "onCreateCommand": {
-    "dotnet": "dotnet restore",
-    "yarn": "yarn"
-  }
 }

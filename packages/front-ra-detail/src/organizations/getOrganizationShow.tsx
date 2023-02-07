@@ -1,15 +1,15 @@
-import { Organization } from '@front/model';
-import { Show, SimpleShowLayout, TextField } from 'react-admin';
-import { nameof } from 'ts-simple-nameof';
+import { Organization } from "@front/model";
+import { Show, SimpleShowLayout, TextField } from "react-admin";
+import { nameof } from "ts-simple-nameof";
 
 export default () => {
-    const OrganizationList = () => (
-        <Show<Organization>>
-            <SimpleShowLayout>
-                <TextField source={nameof<Organization>(o => o.name)} />
-            </SimpleShowLayout>
-        </Show>
-    );
+  const OrganizationList = () => (
+    <Show<Organization>>
+      <SimpleShowLayout>
+        <TextField source={nameof<Organization>((o) => o.name)} />
+      </SimpleShowLayout>
+    </Show>
+  );
 
-    return OrganizationList;
+  return OrganizationList;
 };
