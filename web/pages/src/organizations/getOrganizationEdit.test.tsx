@@ -1,4 +1,4 @@
-import { Organization } from "@front/model";
+import { Organization } from "@web/model";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { createMemoryHistory } from "history";
@@ -96,7 +96,7 @@ test("編集ができる", async () => {
     expect(dataProvider.update).toHaveBeenCalledWith<
       [string, UpdateParams<Organization>]
     >("organizations", {
-      id: "1",
+      id: 1,
       previousData: { id: 1, name: "##name##" },
       data: { id: 1, name: "##name## updated" },
     });

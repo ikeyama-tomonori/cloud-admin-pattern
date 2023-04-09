@@ -1,4 +1,4 @@
-import { Organization } from "@front/model";
+import { Organization } from "@web/model";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import {
