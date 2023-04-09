@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/rome/configuration_schema.json",
   "files": {
-    "ignore": ["coverage/","dist/"]
+    "ignore": ["coverage/","dist/",".pnpm-store/",".vscode/", "server/"]
   },
   "linter": {
     "enabled": true,

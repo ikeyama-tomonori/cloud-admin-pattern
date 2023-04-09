@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 public class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options) { }
 
     public DbSet<Entity.Organization> Organizations => this.Set<Entity.Organization>();
     public DbSet<Entity.Project> Projects => this.Set<Entity.Project>();
@@ -30,6 +31,7 @@ public class AppDbContext : DbContext
     // DateTimeはすべてUtcとして扱う
     private sealed class DateTimeConverter : ValueConverter<DateTime, DateTime>
     {
-        public DateTimeConverter() : base(v => v, v => new DateTime(v.Ticks, DateTimeKind.Utc)) { }
+        public DateTimeConverter()
+            : base(v => v, v => new DateTime(v.Ticks, DateTimeKind.Utc)) { }
     }
 }

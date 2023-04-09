@@ -1,11 +1,26 @@
 {
   "private": true,
   "scripts": {
-    "test": "vitest"
+    "start": "run-p -l start:*",
+    "start:migration": "dotnet run --project server/src/Server.Main.AppDbMigration",
+    "start:api": "dotnet run --project server/src/Server.Main.WebApi",
+    "start:web": "pnpm --filter @web/main dev",
+    "lint": "rome check .",
+    "format": "rome format --write .",
+    "test": "vitest",
+    "add-migration": "dotnet ef migrations add --project server/src/Server.Main.AppDbMigration",
+    "deploy": "run-s deploy:*",
+    "deploy:migration": "dotnet publish server/src/Server.Main.AppDbMigration --configuration Release --output dist/migration/published --no-self-contained",
+    "deploy:api": "dotnet publish server/src/Server.Main.WebApi --configuration Release --output dist/webapp/published --no-self-contained",
+    "deploy:web": "pnpm --filter @web/main build --outDir ../../dist/webapp/published/wwwroot",
+    "deploy:cdk": "yarn workspace @infra-aws/main cdk deploy --all --require-approval never",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@vitejs/plugin-react": "^3.1.0",
+    "@vitest/coverage-c8": "^0.29.8",
+    "c8": "^7.13.0",
     "husky": "^8.0.3",
     "jsdom": "^21.1.1",
     "lint-staged": "^13.2.1",

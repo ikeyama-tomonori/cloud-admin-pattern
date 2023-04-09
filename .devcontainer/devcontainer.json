@@ -3,11 +3,9 @@
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
     "features": {
         "ghcr.io/devcontainers/features/common-utils:1": {
-            "installZsh": "true",
             "upgradePackages": "false",
             "uid": "1000",
             "gid": "1000",
-            "installOhMyZsh": "true",
             "nonFreePackages": "true"
         },
         "ghcr.io/devcontainers/features/docker-in-docker:1": {},
@@ -26,7 +24,10 @@
         }
     },
     "onCreateCommand": {
-        "dotnet": "dotnet restore",
-        "yarn": "yarn"
+        "dotnet": [
+            "dotnet restore",
+            "dotnet tool restore"
+        ],
+        "pnpm": "pnpm i"
     }
 }
