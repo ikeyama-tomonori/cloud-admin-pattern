@@ -96,7 +96,7 @@ test("編集ができる", async () => {
     expect(dataProvider.update).toHaveBeenCalledWith<
       [string, UpdateParams<Organization>]
     >("organizations", {
-      id: 1,
+      id: "1" as unknown as number,
       previousData: { id: 1, name: "##name##" },
       data: { id: 1, name: "##name## updated" },
     });

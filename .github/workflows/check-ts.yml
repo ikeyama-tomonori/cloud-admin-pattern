@@ -30,7 +30,7 @@ jobs:
             - name: Transpile
               run: pnpm -r exec tsc
             - name: Test
-              run: pnpm test run --coverage
+              run: pnpm vitest run --coverage
             - name: SonarCloud Scan
               uses: SonarSource/sonarcloud-github-action@master
               env:
