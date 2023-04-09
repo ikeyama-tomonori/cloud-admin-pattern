@@ -7,13 +7,13 @@
     "start:web": "pnpm --filter @web/main dev",
     "lint": "rome check .",
     "format": "rome format --write .",
-    "test": "vitest",
+    "test": "pnpm dlx vitest",
     "add-migration": "dotnet ef migrations add --project server/src/Server.Main.AppDbMigration",
     "deploy": "run-s deploy:*",
     "deploy:migration": "dotnet publish server/src/Server.Main.AppDbMigration --configuration Release --output dist/migration/published --no-self-contained",
     "deploy:api": "dotnet publish server/src/Server.Main.WebApi --configuration Release --output dist/webapp/published --no-self-contained",
     "deploy:web": "pnpm --filter @web/main build --outDir ../../dist/webapp/published/wwwroot",
-    "deploy:cdk": "yarn workspace @infra-aws/main cdk deploy --all --require-approval never",
+    "deploy:cdk": "pnpm --filter @infra/main cdk deploy --all --require-approval never",
     "prepare": "husky install"
   },
   "devDependencies": {

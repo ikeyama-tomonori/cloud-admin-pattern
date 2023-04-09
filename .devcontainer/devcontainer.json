@@ -24,10 +24,8 @@
         }
     },
     "onCreateCommand": {
-        "dotnet": [
-            "dotnet restore",
-            "dotnet tool restore"
-        ],
+        "dotnet-restore": "dotnet restore",
+        "dotnet-tool-restore": "dotnet tool restore",
         "pnpm": "pnpm i"
     }
 }
