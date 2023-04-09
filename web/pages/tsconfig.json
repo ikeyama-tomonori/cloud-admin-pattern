@@ -1,9 +1,13 @@
 {
     "extends": "../../tsconfig.base.json",
-    "include": ["src"],
+    "include": [
+        "src"
+    ],
     "compilerOptions": {
         "paths": {
-            "@web/model": ["../model/src"]
+            "@web/model": [
+                "../model/src"
+            ]
         }
     }
 }

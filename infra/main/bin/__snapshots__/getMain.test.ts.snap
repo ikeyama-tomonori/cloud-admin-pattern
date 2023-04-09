@@ -552,7 +552,7 @@ exports[`getMain > Snapshotが一致する 2`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-000000000000-ap-northeast-1",
-          "S3Key": "6dbd112fe448437b3438da4382c72fccbb7d2ee1543db222620d7447fffebc50.zip",
+          "S3Key": "a9d3d4d1afa000946b9863b3e7578a5a5ad86d88274b3639938aa2baebf822ce.zip",
         },
         "Handler": "index.handler",
         "Role": {
@@ -1182,7 +1182,7 @@ exports[`getMain > Snapshotが一致する 2`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-000000000000-ap-northeast-1",
-          "S3Key": "8ddf29ab619460567d3cda58de2ff1bf0f6e95d8822ff630ec58a4d52ed1fa67.zip",
+          "S3Key": "ef671dfd26b6dde1f73a4325587504813605a928622ebc466f4d0de6a0f3b672.zip",
         },
         "Handler": "index.certificateRequestHandler",
         "Role": {
@@ -1248,6 +1248,23 @@ exports[`getMain > Snapshotが一致する 2`] = `
             },
             {
               "Action": "route53:changeResourceRecordSets",
+              "Condition": {
+                "ForAllValues:StringEquals": {
+                  "route53:ChangeResourceRecordSetsActions": [
+                    "UPSERT",
+                    "DELETE",
+                  ],
+                  "route53:ChangeResourceRecordSetsRecordTypes": [
+                    "CNAME",
+                  ],
+                },
+                "ForAllValues:StringLike": {
+                  "route53:ChangeResourceRecordSetsNormalizedRecordNames": [
+                    "*.test.example.com",
+                    "*.test.example.com",
+                  ],
+                },
+              },
               "Effect": "Allow",
               "Resource": {
                 "Fn::Join": [
@@ -1309,7 +1326,7 @@ exports[`getMain > Snapshotが一致する 2`] = `
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-000000000000-ap-northeast-1",
-          "S3Key": "ae967c277459e8936ac565a71d34ea5dcff7b98e556466c36a4d6da023a2d9aa.zip",
+          "S3Key": "f5b6a6d08a8206e67d0b54e2a29abd7e0472d835abc71037de3a93545b5edacc.zip",
         },
         "Handler": "index.handler",
         "Role": {
