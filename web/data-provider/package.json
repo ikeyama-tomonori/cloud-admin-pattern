@@ -1,0 +1,7 @@
+{
+    "name": "@web/data-provider",
+    "private": true,
+    "dependencies": {
+        "ra-data-simple-rest": "^4.9.1"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "include": ["src"],
+    "compilerOptions": {
+        "paths": {
+            "@web/admin": ["../admin/src"],
+            "@web/data-provider": ["../data-provider/src"],
+            "@web/pages": ["../pages/src"],
+            "@web/model": ["../model/src"]
+        }
+    }
+}

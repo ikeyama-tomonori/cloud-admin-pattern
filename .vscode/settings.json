@@ -9,5 +9,5 @@
     },
     "omnisharp.enableEditorConfigSupport": true,
     "omnisharp.enableRoslynAnalyzers": true,
-    "vitest.commandLine": "yarn test "
+    "vitest.commandLine": "pnpm vitest"
 }

@@ -1,7 +1,7 @@
 {
     "*.{tsx,ts}": [
         "rome format --write",
-        "rome check --apply-suggested"
+        "rome check --apply"
     ],
     "*.cs": [
         "dotnet format style --include",

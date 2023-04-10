@@ -1,0 +1,18 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "module": "commonjs",
+        "paths": {
+            "@infra/resource": [
+                "../resource/lib"
+            ],
+            "@infra/stack": [
+                "../stack/lib"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "cdk.out"
+    ]
+}
