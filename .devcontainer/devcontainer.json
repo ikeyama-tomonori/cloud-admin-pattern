@@ -11,6 +11,8 @@
             "extensions": [
                 "csharpier.csharpier-vscode",
                 "DavidAnson.vscode-markdownlint",
+                "eamodio.gitlens",
+                "formulahendry.dotnet-test-explorer",
                 "ms-dotnettools.csharp",
                 "rome.rome",
                 "SonarSource.sonarlint-vscode",
