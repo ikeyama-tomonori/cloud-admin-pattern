@@ -13,7 +13,7 @@ DevContaierを利用する
 ### dotnet
 
 > dotnet outdated -u:Prompt
-> dotnet tool update csharpier 
+> dotnet tool update csharpier
 > dotnet tool update dotnet-ef
 > dotnet tool update dotnet-coverage
 > dotnet tool update dotnet-sonarscanner
