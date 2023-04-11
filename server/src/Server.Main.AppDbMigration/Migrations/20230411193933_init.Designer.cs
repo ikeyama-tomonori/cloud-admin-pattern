@@ -11,14 +11,15 @@ using Server.Repository.AppDb;
 namespace Server.Main.AppDbMigration.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220703025100_Init")]
-    partial class Init
+    [Migration("20230411193933_init")]
+    partial class init
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Server.Repository.AppDb.Entity.Backlog", b =>

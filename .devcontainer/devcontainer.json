@@ -2,24 +2,24 @@
     "name": "Docker in Docker",
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
     "features": {
-        "ghcr.io/devcontainers/features/common-utils:1": {
-            "upgradePackages": "false",
-            "uid": "1000",
-            "gid": "1000",
-            "nonFreePackages": "true"
-        },
         "ghcr.io/devcontainers/features/docker-in-docker:1": {},
         "ghcr.io/devcontainers/features/dotnet:1": {},
+        "ghcr.io/devcontainers/features/github-cli:1": {},
         "ghcr.io/devcontainers/features/node:1": {}
     },
     "customizations": {
         "vscode": {
             "extensions": [
-                "ms-dotnettools.csharp",
                 "csharpier.csharpier-vscode",
+                "DavidAnson.vscode-markdownlint",
+                "eamodio.gitlens",
+                "formulahendry.dotnet-test-explorer",
+                "GitHub.vscode-pull-request-github",
+                "ms-dotnettools.csharp",
+                "rome.rome",
                 "SonarSource.sonarlint-vscode",
-                "ZixuanChen.vitest-explorer",
-                "rome.rome"
+                "yzhang.markdown-all-in-one",
+                "ZixuanChen.vitest-explorer"
             ]
         }
     },

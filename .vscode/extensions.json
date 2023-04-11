@@ -1,8 +1,0 @@
-{
-    "recommendations": [
-        "ms-dotnettools.csharp",
-        "rome.rome",
-        "sonarsource.sonarlint-vscode",
-        "zixuanchen.vitest-explorer"
-    ]
-}
